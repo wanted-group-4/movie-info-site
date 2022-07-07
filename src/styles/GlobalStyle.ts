@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { reset } from 'styled-reset';
+import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
   ${reset}
@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
     outline: none;
     border: none;
+    color: #fff;
+    background-color:#212225;
   }
 `;
 
