@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import Input from 'src/components/elements/Input';
 import Button from 'src/components/elements/Button';
+import SearchRecommendList from 'src/components/SearchRecommentList';
 
 const Search = () => {
   const [searchInput, setSearchInput] = useState('');
@@ -70,8 +71,7 @@ const Search = () => {
         />
       </SearchInputWrapper>
       {isInputFocus &&
-        <SearchRecommendList>
-        </SearchRecommendList>}
+        <SearchRecommendList />}
   </SearchContainer>
 )};
 
@@ -92,14 +92,6 @@ const SearchInputWrapper = styled.div`
   align-items: center;
   margin: 0 auto;
   width: 100%;
-  border-radius: 20px;
-`;
-
-const SearchRecommendList = styled.div`
-  width: 100%;
-  margin: 0 auto;
-  background: ${({theme}) => theme.color.gray_03};
-  height: 100px;
   border-radius: 20px;
 `;
 
