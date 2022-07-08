@@ -1,6 +1,6 @@
-import React from 'react'
-import styled from 'styled-components'
-import {AiOutlineSearch} from 'react-icons/ai';
+import React from 'react';
+import styled from 'styled-components';
+import { AiOutlineSearch } from 'react-icons/ai';
 
 const StyledButton = styled.button`
   margin: 0 auto;
@@ -11,19 +11,16 @@ const StyledButton = styled.button`
 `;
 
 interface ButtonProps {
-  _onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  _onClick?: (event: React.MouseEvent) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onClick?: (event: React.MouseEvent) => void;
 }
 
-const Button = ({_onClick}: ButtonProps) => {
+const Button = ({ onClick }: ButtonProps) => {
   return (
     <StyledButton>
-      <AiOutlineSearch 
-        size={30}
-        onClick={_onClick}
-      />
+      <AiOutlineSearch size={30} onClick={onClick} />
     </StyledButton>
-  )
-}
+  );
+};
 
-export default Button
+export default Button;
