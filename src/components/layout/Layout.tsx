@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import Navigation from './Navigation';
 
-type LayoutProps = {
+interface LayoutProps {
   children: React.ReactNode;
-};
+}
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
