@@ -43,6 +43,10 @@ const NavWrapper = styled.nav`
   padding: 24px;
   display: flex;
   justify-content: space-between;
+  * {
+    color: #fff;
+    background-color: #212225;
+  }
   a {
     margin: 16px;
     padding: 12px;
