@@ -1,38 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { debounce } from 'lodash';
 
 import Input from 'src/components/elements/Input';
 import Button from 'src/components/elements/Button';
 
+interface ISearchData {
+  id: string;
+  title: string;
+  year: number;
+  type: string;
+  poster: string;
+  like: boolean;
+}
+
 const Search = () => {
-  const [searchInput, setSearchInput] = useState('');
   const [isInputFocus, setIsInputFocus] = useState(false);
-  const [searchData, setSearchData] = useState([
-    {
-      title: '',
-      year: '',
-      id: '',
-      type: '',
-      poster: '',
-      like: false,
-    },
-  ]);
+  const [searchData, setSearchData] = useState<ISearchData[] | []>([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await axios.get('http://localhost:3000/data/movies.json');
-      console.log(data);
-    };
-    fetchData();
-  }, []);
-
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchInputText = event.target.value;
-    if (searchInputText.length === 0) {
-      return setSearchData([]);
-    }
+  const sendQuery = async (query: string) => {
+    console.log(query);
+    const { data } = await axios.get('http://localhost:3000/data/movies.json');
+    if (!data.length) return setSearchData([]);
+    setSearchData([...data]);
   };
+
+  const callDebounceQuery = debounce((value) => {
+    sendQuery(value);
+  }, 300);
+
+  const handleDebounce = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+
+    if (checkIsEmpty(value)) return setSearchData([]);
+
+    callDebounceQuery(value);
+  };
+
+  const checkIsEmpty = (value: string): boolean => value.trim() === '';
 
   const onCheckEnter = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
@@ -61,7 +69,7 @@ const Search = () => {
       <SearchInputWrapper>
         <Input
           onKeyPress={onCheckEnter}
-          onChange={onChangeInput}
+          onChange={handleDebounce}
           onFocus={focusHandler}
           onBlur={blurHandler}
           placeholder="영화 제목을 입력해주세요"
