@@ -1,18 +1,37 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const SearchRecommendList = () => {
+interface SearchReacommendListProps {
+  searchInput: string
+}
+
+const SearchRecommendList = ({searchInput}: SearchReacommendListProps) => {
+  const testArray = [1, 2, 3,];
+
   return (
-    <SearchRecommend>SearchRecommend</SearchRecommend>
+    <SearchList>
+      {testArray.map((keyword) => (
+            <RecommendKeywordWrapper key={keyword}>
+              <RecommendKeyword>{searchInput}</RecommendKeyword>
+            </RecommendKeywordWrapper>
+          ))}
+    </SearchList>
   )
 }
 
-const SearchRecommend = styled.div`
+const SearchList = styled.div`
   width: 100%;
   margin: 0 auto;
-  background: ${({theme}) => theme.color.gray_03};
-  height: 100px;
+  background: ${({theme}) => theme.color.gray_02};
   border-radius: 20px;
+`;
+
+const RecommendKeywordWrapper = styled.li`
+  padding: 7px;
+`;
+
+const RecommendKeyword = styled.span`
+  color: ${({theme}) => theme.color.secondary_02}
 `;
 
 export default SearchRecommendList

@@ -1,4 +1,4 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface StyledProps {
@@ -13,33 +13,44 @@ interface InputProps extends StyledProps {
   _onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
-const Input = forwardRef((
-  {_onChange, _onKeyPress, _onFocus, _onBlur, placeholder, type}: InputProps, ref: React.Ref<HTMLInputElement>) => {
-
-  return (
-    <StyledInput
-      ref={ref}
-      type={type}
-      placeholder={placeholder}
-      onKeyPress={_onKeyPress}
-      onChange={_onChange}
-      onFocus={_onFocus}
-      onBlur={_onBlur}
-    />
-  )
-});
+const Input = forwardRef(
+  (
+    {
+      _onChange,
+      _onKeyPress,
+      _onFocus,
+      _onBlur,
+      placeholder,
+      type,
+    }: InputProps,
+    ref: React.Ref<HTMLInputElement>
+  ) => {
+    return (
+      <StyledInput
+        ref={ref}
+        type={type}
+        placeholder={placeholder}
+        onKeyPress={_onKeyPress}
+        onChange={_onChange}
+        onFocus={_onFocus}
+        onBlur={_onBlur}
+      />
+    );
+  }
+);
 Input.displayName = 'Input';
 
 Input.defaultProps = {
   type: 'text',
   placeholder: '텍스트를 입력해주세요.',
-}
+};
 
 const StyledInput = styled.input`
   margin: 0 auto;
   padding: 5px 20px;
   width: 100%;
   background: transparent;
+  color: ${({ theme }) => theme.color.white};
   font-weight: 400;
   size: 24px;
   line-height: 34px;
@@ -50,7 +61,7 @@ const StyledInput = styled.input`
   }
 
   &::placeholder {
-    color: ${({theme}) => theme.color.white};
+    color: ${({ theme }) => theme.color.white};
   }
 `;
 

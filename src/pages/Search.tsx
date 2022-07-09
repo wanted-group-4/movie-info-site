@@ -21,7 +21,7 @@ const Search = () => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await axios.get('http://localhost:3000/data/movies.json');
-      console.log(data);
+      console.log(data.data.movies);
     }
     fetchData();
   }, [])
@@ -31,6 +31,7 @@ const Search = () => {
     if(searchInputText.length === 0) {
       return setSearchData([]);
     }
+    setSearchInput(searchInputText);
   };
 
   const onCheckEnter = (event: React.KeyboardEvent) => {
@@ -71,7 +72,7 @@ const Search = () => {
         />
       </SearchInputWrapper>
       {isInputFocus &&
-        <SearchRecommendList />}
+        <SearchRecommendList searchInput={searchInput} />}
   </SearchContainer>
 )};
 
@@ -81,7 +82,7 @@ const SearchContainer = styled.div`
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
-  border: 2px solid black;
+  border: 2px solid ${({theme}) => theme.color.white};
   width: 80%;
   border-radius: 20px;
 `;
