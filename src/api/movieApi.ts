@@ -1,33 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { AxiosResponse } from 'axios';
+import { useHttpRequest } from './useFetch';
 import serverApi from '.';
 
-export const movieApi = (movieId?: string, page = 1) => {
-  const [data, setData] = useState<AxiosResponse | void | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export const getMovies = () => {
+  const response = useHttpRequest('');
+  return response;
+};
 
-  const getMovies = async (page: number) => {
-    setLoading(true);
-    const response = await serverApi
-      .get(`/movies?_page=${page}&_limit=10`)
-      .catch((error) => setError(error));
-    setData(response);
-    setLoading(false);
-  };
+export const getMovieById = (id: number) => {
+  const response = useHttpRequest(`/${id}`);
+  return response;
+};
 
-  const getMovieById = async (movieId: string) => {
-    setLoading(true);
-    const response = await serverApi
-      .get(`/movies?id=${movieId}`)
-      .catch((error) => setError(error));
-    setData(response);
-    setLoading(false);
-  };
+export const getMovieByPage = (page: string) => {
+  const response = useHttpRequest(`?_page=${page}&_limit=10`);
+  return response;
+};
 
-  useEffect(() => {
-    movieId ? getMovieById(movieId) : getMovies(page);
-  }, [movieId]);
+export const getMovieByRating = (rating: number) => {
+  const response = useHttpRequest(`?rating_gte=${rating}&rating_lte=10`);
+  return response;
+};
 
-  return { data, loading, error };
+export const getMovieByGenre = (genre: string) => {
+  const response = useHttpRequest(`?genres_like=${genre}`);
+  return response;
 };
