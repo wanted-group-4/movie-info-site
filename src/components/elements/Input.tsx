@@ -43,6 +43,7 @@ const StyledInput = styled.input`
   padding: 5px 20px;
   width: 100%;
   background: transparent;
+  color: ${({ theme }) => theme.color.white};
   font-weight: 400;
   size: 24px;
   line-height: 34px;
