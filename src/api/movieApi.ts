@@ -25,3 +25,14 @@ export const getMovieByGenre = (genre: string) => {
   const response = useHttpRequest(`?genres_like=${genre}`);
   return response;
 };
+
+export const getMovieInBookmark = () => {
+  const response = useHttpRequest('?like=true');
+  return response;
+};
+
+export const patchMovieFavorite = (id: number, favorite: boolean) => {
+  serverApi
+    .patch(`/${id}`, { like: !favorite })
+    .catch((error) => console.log(error));
+};
