@@ -63,7 +63,7 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     );
     console.log(filterData);
     setFilterMovie(filterData);
-    setRecentKeyword([searchInput, ...recentKeyword]);
+    setRecentKeyword([...recentKeyword, searchInput]);
   };
 
   const onCheckEnter = (event: React.KeyboardEvent) => {
@@ -76,8 +76,18 @@ const SearchInput = ({ movies }: SearchInputProps) => {
 
   const handleCheckIsFocus = () => setIsInputFocus((prev: boolean) => !prev);
 
+  const checkMaximumRecentSearch = (): boolean => {
+    const MAXIMUM_SIZE = 10;
+    return recentKeyword.length > MAXIMUM_SIZE;
+  };
+
   useEffect(() => {
-    localStorage.setItem('recentKeyword', JSON.stringify(recentKeyword));
+    const newRecentKeyword = checkMaximumRecentSearch()
+      ? [...recentKeyword.slice(1)]
+      : recentKeyword;
+
+    localStorage.setItem('recentKeyword', JSON.stringify(newRecentKeyword));
+    setRecentKeyword(newRecentKeyword);
   }, [recentKeyword]);
 
   return (
