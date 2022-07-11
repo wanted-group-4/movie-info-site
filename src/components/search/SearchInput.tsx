@@ -5,9 +5,7 @@ import { debounce } from 'lodash';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { Input, Button } from '../elements';
-
-import SearchRecommendList from './SearchRecommentList';
-import SearchRecentList from './SearchRecentList';
+import SearchList from './SearchList';
 
 interface SearchInputProps {
   movies?: any;
@@ -34,8 +32,9 @@ const SearchInput = ({ movies }: SearchInputProps) => {
   const sendQuery = async (query: string) => {
     console.log(query);
     const { data } = await axios.get('http://localhost:3000/data/movies.json');
-    if (!data.length) return setSearchData([]);
-    setSearchData([...data]);
+    if (!data.movies.length) return setSearchData([]);
+    setSearchData([...data.movies]);
+    searchRecommend();
   };
 
   const callDebounceQuery = debounce((value) => {
@@ -56,14 +55,24 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     setSearchInput(value.trim());
   };
 
-  const handleSearch = () => {
-    if (searchInput.length === 0) return;
-    const filterData = movies.filter((movie: { title: string }) =>
+  const searchRecommend = () => {
+    const filterData = searchData.filter((movie: { title: string }) =>
       movie.title.toLowerCase().includes(searchInput.toLowerCase())
     );
-    console.log(filterData);
     setFilterMovie(filterData);
-    setRecentKeyword([searchInput, ...recentKeyword]);
+  };
+
+  const handleSearch = () => {
+    if (searchInput.length === 0) return;
+    // const filterData = movies.filter((movie: { title: string }) =>
+    //   movie.title.toLowerCase().includes(searchInput.toLowerCase())
+    // );
+
+    if (recentKeyword.length >= 10) {
+      setRecentKeyword([searchInput, ...recentKeyword.slice(0, 9)]);
+    } else {
+      setRecentKeyword([searchInput, ...recentKeyword]);
+    }
   };
 
   const onCheckEnter = (event: React.KeyboardEvent) => {
@@ -94,10 +103,10 @@ const SearchInput = ({ movies }: SearchInputProps) => {
               type="text"
             />
             <Button onClick={handleSearch}>
-              <AiOutlineSearch size={30} />
+              <AiOutlineSearch size={30} style={{ color: 'white' }} />
             </Button>
           </SearchInputWrapper>
-          <SearchRecentList recentKeyword={recentKeyword} />
+          <SearchList recentKeyword={recentKeyword} />
         </SearchContainer>
       ) : isInputFocus ? (
         <SearchContainer>
@@ -111,10 +120,10 @@ const SearchInput = ({ movies }: SearchInputProps) => {
               type="text"
             />
             <Button onClick={handleSearch}>
-              <AiOutlineSearch size={30} />
+              <AiOutlineSearch size={30} style={{ color: 'white' }} />
             </Button>
           </SearchInputWrapper>
-          <SearchRecommendList />
+          <SearchList filterMovie={filterMovie} />
         </SearchContainer>
       ) : (
         <SearchContainer>
@@ -128,7 +137,7 @@ const SearchInput = ({ movies }: SearchInputProps) => {
               type="text"
             />
             <Button onClick={handleSearch}>
-              <AiOutlineSearch size={30} />
+              <AiOutlineSearch size={30} style={{ color: 'white' }} />
             </Button>
           </SearchInputWrapper>
         </SearchContainer>
@@ -148,6 +157,7 @@ const SearchContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.color.white};
   width: 80%;
   border-radius: 20px;
+  overflow: hidden;
 `;
 
 const SearchInputWrapper = styled.div`
