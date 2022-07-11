@@ -5,7 +5,9 @@ import { MovieDetail } from 'src/types/movie'
 import { patchMovieFavorite } from 'src/api/movieApi'
 
 
+
 const PostDetail = ({data}: any) => {
+
   const [open, setOpen] = useState(false)
   
  const {
