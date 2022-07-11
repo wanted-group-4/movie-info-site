@@ -6,9 +6,9 @@ export const getMovies = () => {
   return response;
 };
 
-export const getMovieById = (id: number) => {
+export const getMovieById = (id: string | undefined) => {
   const response = useHttpRequest(`/${id}`);
-  return response;
+  return response
 };
 
 export const getMovieByPage = (page: string) => {
@@ -31,8 +31,8 @@ export const getMovieInBookmark = () => {
   return response;
 };
 
-export const patchMovieFavorite = (id: number, favorite: boolean) => {
+export const patchMovieFavorite = (id: number, like: boolean) => {
   serverApi
-    .patch(`/${id}`, { like: !favorite })
+    .patch(`/${id}`, { like: !like })
     .catch((error) => console.log(error));
 };
