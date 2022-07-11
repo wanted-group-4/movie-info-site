@@ -16,13 +16,15 @@
     "react-scripts": "5.0.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
+    "swiper": "^8.3.0",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start & yarn run server",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "json-server --watch ./public/data/movies.json --port 4000"
   },
   "eslintConfig": {
     "extends": [
