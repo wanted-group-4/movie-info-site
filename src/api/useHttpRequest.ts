@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { AxiosResponse, AxiosError } from 'axios';
 import serverApi from './index';
 
 export const useHttpRequest = (url: string) => {
-  const [data, setData] = useState<AxiosResponse | void | null>(null);
+  const [data, setData] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<AxiosError | null>(null);
+  const [error, setError] = useState<any | null>(null);
 
   useEffect(() => {
     async function getData() {

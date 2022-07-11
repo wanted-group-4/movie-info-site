@@ -1,4 +1,4 @@
-import { useHttpRequest } from './useFetch';
+import { useHttpRequest } from './useHttpRequest';
 import serverApi from '.';
 
 export const getMovies = () => {
