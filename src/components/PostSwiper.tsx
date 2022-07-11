@@ -61,7 +61,7 @@ const PostSwiper = (props: propsType) => {
     >
       {data.map((item) => (
         <SwiperSlide key={item.id} className="slideItem">
-          <PostCard data={item} data-id={item.id} onClick={handleClick} />
+          <PostCard data={item} data-id={item.id}  />
           <div className="bottom">
             <p>{item.title}</p>
           </div>

@@ -1,5 +1,6 @@
 import { useHttpRequest } from './useFetch';
 import serverApi from '.';
+import { movieInfo } from 'src/components/PostList';
 
 export const getMovies = () => {
   const response = useHttpRequest('');
@@ -11,8 +12,8 @@ export const getMovieById = (id: number) => {
   return response;
 };
 
-export const getMovieByPage = (page: string) => {
-  const response = useHttpRequest(`?_page=${page}&_limit=10`);
+export const getMovieByPage = (page: number) => {
+  const response = useHttpRequest<movieInfo>(`?_page=${page}&_limit=10`);
   return response;
 };
 
