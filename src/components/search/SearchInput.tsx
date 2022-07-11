@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+import { debounce } from 'lodash';
+import { AiOutlineSearch } from 'react-icons/ai';
 
-import Input from './elements/Input';
-import Button from './elements/Button';
+import { Input, Button } from '../elements';
+
 import SearchRecommendList from './SearchRecommentList';
 import SearchRecentList from './SearchRecentList';
 
@@ -10,17 +13,47 @@ interface SearchInputProps {
   movies?: any;
 }
 
+interface ISearchData {
+  id: string;
+  title: string;
+  year: number;
+  type: string;
+  poster: string;
+  like: boolean;
+}
+
 const SearchInput = ({ movies }: SearchInputProps) => {
   const [searchInput, setSearchInput] = useState('');
-  const [isInputFocus, setIsInputFocus] = useState(false);
+  const [searchData, setSearchData] = useState<ISearchData[] | []>([]);
   const [filterMovie, setFilterMovie] = useState<Array<object>>([]);
+  const [isInputFocus, setIsInputFocus] = useState(false);
   const [recentKeyword, setRecentKeyword] = useState(
     JSON.parse(localStorage.getItem('recentkeyword') || '[]')
   );
 
-  const onChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchInputText = event.target.value;
-    setSearchInput(searchInputText);
+  const sendQuery = async (query: string) => {
+    console.log(query);
+    const { data } = await axios.get('http://localhost:3000/data/movies.json');
+    if (!data.length) return setSearchData([]);
+    setSearchData([...data]);
+  };
+
+  const callDebounceQuery = debounce((value) => {
+    sendQuery(value);
+  }, 300);
+
+  const handleDebounce = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { value },
+    } = event;
+
+    if (checkIsEmpty(value)) {
+      setSearchData([]);
+      setSearchInput('');
+    }
+
+    callDebounceQuery(value);
+    setSearchInput(value.trim());
   };
 
   const handleSearch = () => {
@@ -39,12 +72,9 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     }
   };
 
-  const handleCheckIsFocus = () => {
-    if (isInputFocus) {
-      return setIsInputFocus(false);
-    }
-    setIsInputFocus(true);
-  };
+  const checkIsEmpty = (value: string): boolean => value.trim() === '';
+
+  const handleCheckIsFocus = () => setIsInputFocus((prev: boolean) => !prev);
 
   useEffect(() => {
     localStorage.setItem('recentKeyword', JSON.stringify(recentKeyword));
@@ -57,13 +87,15 @@ const SearchInput = ({ movies }: SearchInputProps) => {
           <SearchInputWrapper>
             <Input
               onKeyPress={onCheckEnter}
-              onChange={onChangeInput}
+              onChange={handleDebounce}
               onFocus={handleCheckIsFocus}
               onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
             />
-            <Button _onClick={handleSearch} />
+            <Button onClick={handleSearch}>
+              <AiOutlineSearch size={30} />
+            </Button>
           </SearchInputWrapper>
           <SearchRecentList recentKeyword={recentKeyword} />
         </SearchContainer>
@@ -72,13 +104,15 @@ const SearchInput = ({ movies }: SearchInputProps) => {
           <SearchInputWrapper>
             <Input
               onKeyPress={onCheckEnter}
-              onChange={onChangeInput}
+              onChange={handleDebounce}
               onFocus={handleCheckIsFocus}
               onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
             />
-            <Button _onClick={handleSearch} />
+            <Button onClick={handleSearch}>
+              <AiOutlineSearch size={30} />
+            </Button>
           </SearchInputWrapper>
           <SearchRecommendList />
         </SearchContainer>
@@ -87,19 +121,23 @@ const SearchInput = ({ movies }: SearchInputProps) => {
           <SearchInputWrapper>
             <Input
               onKeyPress={onCheckEnter}
-              onChange={onChangeInput}
+              onChange={handleDebounce}
               onFocus={handleCheckIsFocus}
               onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
             />
-            <Button _onClick={handleSearch} />
+            <Button onClick={handleSearch}>
+              <AiOutlineSearch size={30} />
+            </Button>
           </SearchInputWrapper>
         </SearchContainer>
       )}
     </>
   );
 };
+
+export default SearchInput;
 
 const SearchContainer = styled.div`
   display: flex;
@@ -120,5 +158,3 @@ const SearchInputWrapper = styled.div`
   width: 100%;
   border-radius: 20px;
 `;
-
-export default SearchInput;
