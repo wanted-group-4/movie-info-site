@@ -2,7 +2,7 @@ import React, { forwardRef } from 'react';
 import styled from 'styled-components';
 
 interface StyledProps {
-  type?: string;
+  type: string;
   placeholder?: string;
 }
 
