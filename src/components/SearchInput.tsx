@@ -7,7 +7,7 @@ import SearchRecommendList from './SearchRecommentList';
 import SearchRecentList from './SearchRecentList';
 
 interface SearchInputProps {
-  movies: any;
+  movies?: any;
 }
 
 const SearchInput = ({ movies }: SearchInputProps) => {
@@ -39,7 +39,7 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     }
   };
 
-  const handleFocus = () => {
+  const handleCheckIsFocus = () => {
     if (isInputFocus) {
       return setIsInputFocus(false);
     }
@@ -58,8 +58,8 @@ const SearchInput = ({ movies }: SearchInputProps) => {
             <Input
               onKeyPress={onCheckEnter}
               onChange={onChangeInput}
-              onFocus={handleFocus}
-              onBlur={handleFocus}
+              onFocus={handleCheckIsFocus}
+              onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
             />
@@ -67,14 +67,29 @@ const SearchInput = ({ movies }: SearchInputProps) => {
           </SearchInputWrapper>
           <SearchRecentList recentKeyword={recentKeyword} />
         </SearchContainer>
+      ) : isInputFocus ? (
+        <SearchContainer>
+          <SearchInputWrapper>
+            <Input
+              onKeyPress={onCheckEnter}
+              onChange={onChangeInput}
+              onFocus={handleCheckIsFocus}
+              onBlur={handleCheckIsFocus}
+              placeholder="영화 제목을 입력해주세요"
+              type="text"
+            />
+            <Button _onClick={handleSearch} />
+          </SearchInputWrapper>
+          <SearchRecommendList />
+        </SearchContainer>
       ) : (
         <SearchContainer>
           <SearchInputWrapper>
             <Input
               onKeyPress={onCheckEnter}
               onChange={onChangeInput}
-              onFocus={handleFocus}
-              onBlur={handleFocus}
+              onFocus={handleCheckIsFocus}
+              onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
             />
