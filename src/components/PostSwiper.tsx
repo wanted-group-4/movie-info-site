@@ -1,39 +1,14 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 import { Pagination } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { MovieCard } from '../types/Movie';
 
 import PostCard from './PostCard';
 
-interface dataTypes {
-  id: number;
-  imdb_code: string;
-  title: string;
-  title_english: string;
-  title_long: string;
-  slug: string;
-  year: number;
-  rating: number;
-  genres: Array<string>;
-  summary: string;
-  description_full: string;
-  synopsis: string;
-  yt_trailer_code: string;
-  language: string;
-  map_rating: string;
-  background_image: string;
-  background_image_original: string;
-  small_cover_image: string;
-  medium_cover_image: string;
-  large_cover_image: string;
-  state: string;
-  date_uploaded: string;
-  date_uploaded_unix: number;
-  like: boolean;
-}
 interface propsType {
-  data: Array<dataTypes>;
+  data?: MovieCard[];
 }
 
 const PostSwiper = (props: propsType) => {
@@ -59,7 +34,7 @@ const PostSwiper = (props: propsType) => {
       }}
       modules={[Pagination]}
     >
-      {data.map((item) => (
+      {data?.map((item) => (
         <SwiperSlide key={item.id} className="slideItem">
           <PostCard data={item} data-id={item.id} onClick={handleClick} />
           <div className="bottom">
@@ -89,7 +64,7 @@ const SwiperContainer = styled(Swiper)`
     font-weight: 600;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1; /* 라인수 */
+    -webkit-line-clamp: 1;
     text-overflow: ellipsis;
     text-align: center;
     line-height: 2;
