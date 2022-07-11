@@ -5,7 +5,6 @@ import { MovieDetail } from 'src/types/movie'
 import { patchMovieFavorite } from 'src/api/movieApi'
 
 
-
 const PostDetail: React.FC<{data:any}>= ({data}) => {
   const [open, setOpen] = useState(false)
   
@@ -189,7 +188,6 @@ const DescriptionText = styled.p<{open: boolean}>`
   line-height: 1.7;
   color: #d9d9d9;
   ${props => !props.open && css`
-    height:110px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
