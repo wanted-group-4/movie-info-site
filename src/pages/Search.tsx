@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import { debounce } from 'lodash';
 
+import { AiOutlineSearch } from 'react-icons/ai';
 import Input from 'src/components/elements/Input';
 import Button from 'src/components/elements/Button';
 
@@ -18,7 +19,7 @@ interface ISearchData {
 import SearchInput from 'src/components/SearchInput';
 
 const Search = () => {
-  const [isInputFocus, setIsInputFocus] = useState(false);
+  const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
   const [searchData, setSearchData] = useState<ISearchData[] | []>([]);
 
   const sendQuery = async (query: string) => {
@@ -54,13 +55,13 @@ const Search = () => {
     console.log('검색하고 있습니다~');
   };
 
-  const focusHandler = () => {
+  const handleFocus = () => {
     setIsInputFocus(true);
     console.log('포커스되었습니다.');
     console.log(isInputFocus);
   };
 
-  const blurHandler = () => {
+  const handleBlur = () => {
     setIsInputFocus(false);
     console.log('blur 되었습니다');
     console.log(isInputFocus);
@@ -72,12 +73,14 @@ const Search = () => {
         <Input
           onKeyPress={onCheckEnter}
           onChange={handleDebounce}
-          onFocus={focusHandler}
-          onBlur={blurHandler}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           placeholder="영화 제목을 입력해주세요"
           type="text"
         />
-        <Button onClick={searchMovieCallback} />
+        <Button onClick={searchMovieCallback}>
+          <AiOutlineSearch size={30} />
+        </Button>
       </SearchInputWrapper>
       {isInputFocus && <SearchRecommendList></SearchRecommendList>}
     </SearchContainer>
