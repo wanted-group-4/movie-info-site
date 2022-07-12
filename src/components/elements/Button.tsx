@@ -1,10 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { AiOutlineSearch } from 'react-icons/ai';
 
 interface ButtonProps {
-  _onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  _onClick?: (event: React.MouseEvent) => void;
+  children: React.ReactNode;
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({ onClick, children }) => {
