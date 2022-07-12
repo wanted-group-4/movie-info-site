@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
 import { debounce } from 'lodash';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { Input, Button } from '../elements';
 import SearchList from './SearchList';
+import { getMovies } from '../../api/movieApi';
 
 interface SearchInputProps {
   movies?: any;
@@ -21,6 +21,7 @@ interface ISearchData {
 }
 
 const SearchInput = ({ movies }: SearchInputProps) => {
+  const [movieList, setMovieList] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [searchData, setSearchData] = useState<ISearchData[] | []>([]);
   const [filterMovie, setFilterMovie] = useState<Array<object>>([]);
@@ -31,9 +32,9 @@ const SearchInput = ({ movies }: SearchInputProps) => {
 
   const sendQuery = async (query: string) => {
     console.log(query);
-    const { data } = await axios.get('http://localhost:3000/data/movies.json');
-    if (!data.movies.length) return setSearchData([]);
-    setSearchData([...data.movies]);
+    const { data } = await movies;
+    if (!data) return setSearchData([]);
+    setSearchData([...data]);
     searchRecommend();
   };
 
@@ -64,11 +65,10 @@ const SearchInput = ({ movies }: SearchInputProps) => {
 
   const handleSearch = () => {
     if (searchInput.length === 0) return;
-    // const filterData = movies.filter((movie: { title: string }) =>
-    //   movie.title.toLowerCase().includes(searchInput.toLowerCase())
-    // );
-    // console.log(filterData);
-    // setFilterMovie(filterData);
+    const filterData = searchData.filter((movie: { title: string }) =>
+      movie.title.toLowerCase().includes(searchInput.toLowerCase())
+    );
+    setFilterMovie(filterData);
     setRecentKeyword([searchInput, ...recentKeyword]);
   };
 
