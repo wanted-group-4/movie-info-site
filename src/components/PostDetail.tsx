@@ -1,20 +1,13 @@
 import React, { useState } from 'react'
 import styled, {css} from 'styled-components'
 import { AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
+import { MovieDetail } from 'src/types/Movie'
 
-const PostDetail = () => {
+const PostDetail = ({data}: any) => {
   const [open, setOpen] = useState(false)
-  const [title, year, runtime, genres, like, description_full, background_image, medium_cover_image] =[
-    'Suicide',
-    2016,
-    123,
-    ['Action','Adventure','Fantasy','Sci-Fi'],
-    false,
-    "It feels good to be bad...Assemble a team of the world's most dangerous, incarcerated Super Villains, provide them with the most powerful arsenal at the government's disposal, and send them off on a mission to defeat an enigmatic, insuperable entity. U.S. intelligence officer Amanda Waller has determined only a secretly convened group of disparate, despicable individuals with next to nothing to lose will do. However, once they realize they weren't picked to succeed but chosen for their patent culpability when they inevitably fail, will the Suicide Squad resolve to die trying, or decide it's every man for himself?",
-    'https://yts.mx/assets/images/movies/suicide_squad_2016/background.jpg',
-    'https://yts.mx/assets/images/movies/suicide_squad_2016/medium-cover.jpg'
-  ] 
-
+  const {
+    id,title, year, runtime, genres, like, background_image, medium_cover_image, description_full }: MovieDetail = data
+    
   return (
     <PostDetailContainer background_image={background_image}>
       {/* <AiOutlineArrowLeft /> */}
