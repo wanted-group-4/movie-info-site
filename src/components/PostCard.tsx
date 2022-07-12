@@ -1,22 +1,27 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 interface propTypes {
   data: {
-    id?: number;
     title: string;
     summary: string;
     medium_cover_image: string;
     like: boolean;
+    id: number;
   };
   onClick?: (event: React.MouseEvent) => void;
 }
 
 const PostCard = (props: propTypes) => {
-  const { data, onClick } = props;
+  const { data } = props;
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate(`detail/${data.id}`);
+  };
 
   return (
-    <PostCardContainer onClick={onClick}>
+    <PostCardContainer onClick={handleClick}>
       <img src={data.medium_cover_image} alt={data.title} />
       <div className="text">
         <div className="title">{data.title}</div>
