@@ -26,7 +26,7 @@ interface MovieCard {
 }
 
 export { MovieCard };
-  
+
 export interface MovieDetail {
   id: number;
   title: string;
