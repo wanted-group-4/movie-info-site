@@ -7,22 +7,15 @@ interface StyledProps {
 }
 
 interface InputProps extends StyledProps {
-  _onKeyPress?: (event: React.KeyboardEvent) => void;
-  _onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  _onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
-  _onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 
 const Input = forwardRef(
   (
-    {
-      _onChange,
-      _onKeyPress,
-      _onFocus,
-      _onBlur,
-      placeholder,
-      type,
-    }: InputProps,
+    { onChange, onKeyDown, onFocus, onBlur, placeholder, type }: InputProps,
     ref: React.Ref<HTMLInputElement>
   ) => {
     return (
@@ -30,10 +23,10 @@ const Input = forwardRef(
         ref={ref}
         type={type}
         placeholder={placeholder}
-        onKeyPress={_onKeyPress}
-        onChange={_onChange}
-        onFocus={_onFocus}
-        onBlur={_onBlur}
+        onKeyDown={onKeyDown}
+        onChange={onChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
     );
   }
@@ -50,11 +43,11 @@ const StyledInput = styled.input`
   padding: 5px 20px;
   width: 100%;
   background: transparent;
-  color: ${({ theme }) => theme.color.white};
   font-weight: 400;
   size: 24px;
   line-height: 34px;
   border: none;
+  color: ${({ theme }) => theme.color.white};
 
   &:focus {
     outline: none;
