@@ -99,8 +99,8 @@ const PostCardContainer = styled.li`
     text-overflow: ellipsis;
     word-wrap: break-word;
     transition: all 600ms ease;
+    border: 16px solid transparent;
     background-color: #212225;
-    border: 16px solid #212225;
     opacity: 0;
     overflow: scroll;
     .title {
@@ -140,7 +140,7 @@ const PostCardContainer = styled.li`
       height: 180px;
     }
     .text {
-      border: 12px solid #212225;
+      border: 12px solid transparent;
       .title {
         font-size: 12px;
       }
