@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MovieCard } from '../types/Movie';
+import { Card } from '../types/Movie';
 
 import PostCard from './PostCard';
 
 interface propsType {
-  data?: MovieCard[];
+  data?: Card[];
 }
 
 const PostRow = (props: propsType) => {

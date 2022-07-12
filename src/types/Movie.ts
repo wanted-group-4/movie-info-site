@@ -1,4 +1,4 @@
-interface MovieCard {
+interface Card {
   id: number;
   imdb_code: string;
   title: string;
@@ -25,9 +25,17 @@ interface MovieCard {
   like: boolean;
 }
 
-<<<<<<< HEAD
-export { MovieCard };
+interface CardProps {
+  data: {
+    title: string;
+    summary: string;
+    medium_cover_image: string;
+    like: boolean;
+    id: number;
+  };
+}
 
+export { Card, CardProps };
 
 export interface MovieDetail {
   id: number;
@@ -40,16 +48,3 @@ export interface MovieDetail {
   background_image: string;
   medium_cover_image: string;
 }
-=======
-interface CardProps {
-  data: {
-    title: string;
-    summary: string;
-    medium_cover_image: string;
-    like: boolean;
-    id: number;
-  };
-}
-
-export { MovieCard, CardProps };
->>>>>>> 3cb6b06 (feat: PostCard 이미지 onLoad, onError 콜백함수 추가)
