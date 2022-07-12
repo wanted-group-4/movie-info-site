@@ -22,12 +22,12 @@ const Home = () => {
       {genres.map((genre, index) => (
         <div className="row" key={index}>
           <h1>{genre}</h1>
-          <PostRow data={getMovieByGenre(genre).data} />
+          <PostRow movies={getMovieByGenre(genre).data} />
         </div>
       ))}
       <div className="row">
         <h1>평점 9.0 이상</h1>
-        <PostRow data={getMovieByRating(9).data} />
+        <PostRow movies={getMovieByRating(9).data} />
       </div>
     </HomeContainer>
   );

@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { debounce } from 'lodash';
 import { AiOutlineSearch } from 'react-icons/ai';
-
 import { Input, Button } from '../elements';
 import SearchList from './SearchList';
 import { getMovies } from 'src/api/movieApi';
+import { IMovie } from '../../types/Movie';
 
 interface SearchInputProps {
-  handleSearchMovie: (reslut: any) => void;
+  handleSearchMovie: (reslut: IMovie[] | []) => void;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
-  const { data } = getMovies();
+  const { data } = getMovies() as any;
 
-  const [searchInput, setSearchInput] = useState('');
-  const [filterMovie, setFilterMovie] = useState<any>([]);
+  const [searchInput, setSearchInput] = useState<string>('');
+  const [filterMovie, setFilterMovie] = useState<IMovie[] | []>([]);
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
   const [recentKeyword, setRecentKeyword] = useState(
     JSON.parse(localStorage.getItem('recentkeyword') || '[]')
@@ -45,7 +45,9 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
   };
 
   const filterSearchMovie = (keyword: string) => {
-    const filterData = data.filter((movie: any) =>
+    if (!data) return;
+
+    const filterData = data.filter((movie: IMovie) =>
       movie.title.toLowerCase().includes(keyword)
     );
 

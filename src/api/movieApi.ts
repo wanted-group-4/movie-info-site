@@ -1,37 +1,40 @@
 import { useHttpRequest } from './useHttpRequest';
 import serverApi from '.';
-
-import { MovieCard } from 'src/types/Movie';
+import { IMovie } from '../types/Movie';
 
 export const getMovies = () => {
-  const response = useHttpRequest('');
+  const response = useHttpRequest<IMovie[]>({ url: '' });
   return response;
 };
 
-export const getMovieById = (id: string | undefined) => {
-  const response = useHttpRequest(`/${id}`);
+export const getMovieById = (id: number) => {
+  const response = useHttpRequest<IMovie | undefined>({ url: `/${id}` });
   return response;
 };
 
 export const getMovieByPage = (page: number) => {
-  const response = useHttpRequest(`?_page=${page}&_limit=10`);
+  const response = useHttpRequest<IMovie[] | []>({
+    url: `?_page=${page}&_limit=10`,
+  });
   return response;
 };
 
 export const getMovieByRating = (rating: number) => {
-  const response = useHttpRequest<MovieCard>(
-    `?rating_gte=${rating}&rating_lte=10`
-  );
+  const response = useHttpRequest<IMovie[] | []>({
+    url: `?rating_gte=${rating}&rating_lte=10`,
+  });
   return response;
 };
 
 export const getMovieByGenre = (genre: string) => {
-  const response = useHttpRequest<MovieCard>(`?genres_like=${genre}`);
+  const response = useHttpRequest<IMovie[] | []>({
+    url: `?genres_like=${genre}`,
+  });
   return response;
 };
 
 export const getMovieInBookmark = () => {
-  const response = useHttpRequest('?like=true');
+  const response = useHttpRequest<IMovie[] | []>({ url: '?like=true' });
   return response;
 };
 

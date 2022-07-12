@@ -3,11 +3,12 @@ import styled from 'styled-components';
 
 import { SearchInput } from 'src/components/search';
 import PostList from 'src/components/PostList';
+import { IMovie } from '../types/Movie';
 
 const Search = () => {
-  const [searchMovie, setSearchMovie] = useState<any>([]);
+  const [searchMovie, setSearchMovie] = useState<IMovie[] | []>([]);
 
-  const handleSearchMovie = (result: any) => {
+  const handleSearchMovie = (result: IMovie[] | []) => {
     setSearchMovie(result);
   };
   return (

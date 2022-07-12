@@ -2,15 +2,16 @@ import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import PostCard from './PostCard';
+import { IMovie } from '../types/Movie';
 
 interface PostListProps {
-  movieList: any[]; // movieList 연결 필요
+  movieList: IMovie[] | [];
 }
 
 const PostList: React.FC<PostListProps> = ({ movieList }) => {
   const navigate = useNavigate();
 
-  const handleClick = (id: string): void => navigate(`/detail/${id}`);
+  const handleClick = (id: number): void => navigate(`/detail/${id}`);
 
   return (
     <PostListContainer>

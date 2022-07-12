@@ -1,23 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MovieCard } from '../types/Movie';
-
+import { IMovie } from '../types/Movie';
 import PostCard from './PostCard';
 
-interface propsType {
-  data?: MovieCard[];
+interface PostRowProps {
+  movies: any;
 }
 
-const PostRow = (props: propsType) => {
-  const { data } = props;
-
+const PostRow: React.FC<PostRowProps> = ({ movies }) => {
   return (
     <PostRowContainer>
-      {data?.map((item) => (
-        <div key={item.id} className="item">
-          <PostCard data={item} />
+      {movies.map((movie: IMovie) => (
+        <div key={movie.id} className="item">
+          <PostCard data={movie} />
           <div className="bottom">
-            <p>{item.title}</p>
+            <p>{movie.title}</p>
           </div>
         </div>
       ))}
