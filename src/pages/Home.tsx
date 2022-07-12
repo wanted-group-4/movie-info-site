@@ -1,54 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import axios from 'axios'; // temp
+import { getMovieByRating, getMovieByGenre } from 'src/api/movieApi';
 
-import PostSwiper from 'src/components/PostSwiper';
+import PostRow from 'src/components/PostRow';
 
 const Home = () => {
-  const [ratingData, setRatingData] = useState([]);
-  // const genres = [
-  //   'Action',
-  //   'Adventure',
-  //   'Comedy',
-  //   'Reality-TV',
-  //   'Talk-Show',
-  //   'Crime',
-  //   'Drama',
-  //   'Biography',
-  //   'Documentary',
-  // ];
-
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await axios.get(
-          'http://localhost:3001/movies?rating_gte=9'
-        );
-        setRatingData(() => response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
-  }, []);
+  const genres = [
+    'Action',
+    'Adventure',
+    'Comedy',
+    'Reality-TV',
+    'Talk-Show',
+    'Crime',
+    'Drama',
+    'Biography',
+    'Documentary',
+  ].sort();
 
   return (
     <HomeContainer>
-      <>
+      {genres.map((genre, index) => (
+        <div className="row" key={index}>
+          <h1>{genre}</h1>
+          <PostRow data={getMovieByGenre(genre).data} />
+        </div>
+      ))}
+      <div className="row">
         <h1>평점 9.0 이상</h1>
-        <PostSwiper data={ratingData} />
-      </>
-      <>
-        <h1>평점 9.0 이상</h1>
-        <PostSwiper data={ratingData} />
-      </>
-      <>
-        <h1>평점 9.0 이상</h1>
-        <PostSwiper data={ratingData} />
-      </>
-      <>
-        <h1>평점 9.0 이상</h1>
-        <PostSwiper data={ratingData} />
-      </>
+        <PostRow data={getMovieByRating(9).data} />
+      </div>
     </HomeContainer>
   );
 };
@@ -56,9 +36,13 @@ const Home = () => {
 export default Home;
 
 const HomeContainer = styled.ul`
+  padding: 36px;
   h1 {
     margin: 16px 0;
     font-size: 28px;
     font-weight: 600;
+  }
+  .row {
+    margin-bottom: 72px;
   }
 `;

@@ -8,7 +8,6 @@ interface propTypes {
     medium_cover_image: string;
     like: boolean;
   };
-  onClick: (event: React.MouseEvent<JSX.Element>) => void;
 }
 
 const PostCard = (props: propTypes) => {
@@ -36,7 +35,6 @@ const PostCardContainer = styled.li`
   cursor: pointer;
   position: relative;
   transition: all 300ms ease;
-  /* .selected { */
   &:hover {
     z-index: 9999;
     transform: scale(1.2);
@@ -44,7 +42,7 @@ const PostCardContainer = styled.li`
   img {
     width: 200px;
     height: 100%;
-    border-radius: 8px;
+    border-radius: 4px;
   }
   .text {
     position: absolute;
@@ -85,10 +83,16 @@ const PostCardContainer = styled.li`
         opacity: 1;
       }
     }
-    /* .selected { */
     &:hover {
       z-index: 999;
       opacity: 0.9;
+    }
+  }
+  @media screen and (max-width: 770px) {
+    img,
+    .text {
+      width: 160px;
+      height: 100%;
     }
   }
 `;
