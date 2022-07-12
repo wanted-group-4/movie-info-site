@@ -39,7 +39,7 @@ interface propsType {
 const PostSwiper = (props: propsType) => {
   const { data } = props;
   const navigate = useNavigate();
-  const handleClick = (event: React.MouseEvent<JSX.Element>): void => {
+  const handleClick = (event: React.MouseEvent): void => {
     console.log('clicked');
     const target = event.target as typeof event.target & {
       dataset: {

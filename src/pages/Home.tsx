@@ -22,7 +22,7 @@ const Home = () => {
     (async () => {
       try {
         const response = await axios.get(
-          'http://localhost:3001/movies?rating_gte=9'
+          'http://localhost:4000/movies?rating_gte=9'
         );
         setRatingData(() => response.data);
       } catch (error) {
