@@ -157,6 +157,7 @@ const SearchContainer = styled.div`
   border: 2px solid ${({ theme }) => theme.color.white};
   width: 80%;
   border-radius: 20px;
+  background: ${({ theme }) => theme.color.gray_01};
   overflow: hidden;
 `;
 
