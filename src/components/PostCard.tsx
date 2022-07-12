@@ -67,9 +67,10 @@ const PostCardContainer = styled.li`
   cursor: pointer;
   position: relative;
   transition: all 300ms ease;
+  /* user-select: none; */
   &:hover {
     z-index: 9999;
-    transform: scale(1.2);
+    transform: scale(1.3);
   }
 <<<<<<< HEAD
   img {
@@ -95,15 +96,14 @@ const PostCardContainer = styled.li`
     height: 100%;
     z-index: 999;
     line-height: 1.5;
-    overflow: hidden;
     text-overflow: ellipsis;
     word-wrap: break-word;
     transition: all 600ms ease;
     background-color: #212225;
     border: 16px solid #212225;
     opacity: 0;
+    overflow: scroll;
     .title {
-      border: 12px solid #212225;
       display: -webkit-box;
       -webkit-line-clamp: 2; /* 라인수 */
       -webkit-box-orient: vertical;
@@ -111,10 +111,12 @@ const PostCardContainer = styled.li`
       text-align: center;
       font-size: 20px;
       font-weight: 800;
+      border-bottom: 12px solid #212225;
     }
     .desc {
       font-size: 12px;
       word-wrap: break-word;
+      word-break: break-all;
       line-height: 1.7;
       .summary {
         font-size: 14px;
@@ -134,8 +136,22 @@ const PostCardContainer = styled.li`
   @media screen and (max-width: 770px) {
     .imgBox,
     .text {
-      width: 160px;
-      height: 240px;
+      width: 120px;
+      height: 180px;
+    }
+    .text {
+      border: 12px solid #212225;
+      .title {
+        font-size: 12px;
+      }
+      .desc {
+        font-size: 10px;
+        .summary {
+          margin-right: 4px;
+          padding: 1px 2px;
+          font-size: 8px;
+        }
+      }
     }
   }
 `;
