@@ -2,18 +2,6 @@ import React, { useState } from 'react'
 import styled, {css} from 'styled-components'
 import { AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
 
-interface DetailProps {
-  title?: string;
-  year?: number;
-  runtime?: number;
-  genres?: string[]
-  like?: boolean;
-  background_image?: string;
-  medium_cover_image?: string;
-  src?: string;
-  open?: boolean
-}
-
 const PostDetail = () => {
   const [open, setOpen] = useState(false)
   const [title, year, runtime, genres, like, description_full, background_image, medium_cover_image] =[
