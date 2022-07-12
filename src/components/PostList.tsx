@@ -87,7 +87,7 @@ const Grid = styled.ul`
 const NoMovieList = styled.div``;
 
 const Div = styled.div`
-  width: 200px;
+  width: 100px;
   height: 200px;
-  background-color: red;
+  
 `
