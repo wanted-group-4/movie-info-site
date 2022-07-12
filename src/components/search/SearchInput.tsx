@@ -67,6 +67,8 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     // const filterData = movies.filter((movie: { title: string }) =>
     //   movie.title.toLowerCase().includes(searchInput.toLowerCase())
     // );
+    // console.log(filterData);
+    // setFilterMovie(filterData);
     setRecentKeyword([searchInput, ...recentKeyword]);
   };
 
@@ -87,7 +89,7 @@ const SearchInput = ({ movies }: SearchInputProps) => {
 
   useEffect(() => {
     const newRecentKeyword = checkMaximumRecentSearch()
-      ? [...recentKeyword.slice(1)]
+      ? [...recentKeyword.slice(0, -1)]
       : recentKeyword;
 
     localStorage.setItem('recentKeyword', JSON.stringify(newRecentKeyword));
