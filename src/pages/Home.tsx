@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { getMovieByRating, getMovieByGenre } from 'src/api/movieApi';
 
-import PostSwiper from 'src/components/PostSwiper';
+import PostRow from 'src/components/PostRow';
 
 const Home = () => {
   const genres = [
@@ -22,12 +22,12 @@ const Home = () => {
       {genres.map((genre, index) => (
         <div className="row" key={index}>
           <h1>{genre}</h1>
-          <PostSwiper data={getMovieByGenre(genre).data} />
+          <PostRow data={getMovieByGenre(genre).data} />
         </div>
       ))}
       <div className="row">
         <h1>평점 9.0 이상</h1>
-        <PostSwiper data={getMovieByRating(9).data} />
+        <PostRow data={getMovieByRating(9).data} />
       </div>
     </HomeContainer>
   );
