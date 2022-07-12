@@ -7,7 +7,7 @@ interface StyledProps {
 }
 
 interface InputProps extends StyledProps {
-  onKeyPress?: (event: React.KeyboardEvent) => void;
+  onKeyDown?: (event: React.KeyboardEvent) => void;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
   onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
@@ -15,7 +15,7 @@ interface InputProps extends StyledProps {
 
 const Input = forwardRef(
   (
-    { onChange, onKeyPress, onFocus, onBlur, placeholder, type }: InputProps,
+    { onChange, onKeyDown, onFocus, onBlur, placeholder, type }: InputProps,
     ref: React.Ref<HTMLInputElement>
   ) => {
     return (
@@ -23,7 +23,7 @@ const Input = forwardRef(
         ref={ref}
         type={type}
         placeholder={placeholder}
-        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
