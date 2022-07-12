@@ -1,8 +1,6 @@
 import { useHttpRequest } from './useHttpRequest';
 import serverApi from '.';
 
-import { MovieCard } from 'src/types/Movie';
-
 export const getMovies = () => {
   const response = useHttpRequest('');
   return response;
@@ -19,14 +17,12 @@ export const getMovieByPage = (page: number) => {
 };
 
 export const getMovieByRating = (rating: number) => {
-  const response = useHttpRequest<MovieCard>(
-    `?rating_gte=${rating}&rating_lte=10`
-  );
+  const response = useHttpRequest(`?rating_gte=${rating}&rating_lte=10`);
   return response;
 };
 
 export const getMovieByGenre = (genre: string) => {
-  const response = useHttpRequest<MovieCard>(`?genres_like=${genre}`);
+  const response = useHttpRequest(`?genres_like=${genre}`);
   return response;
 };
 
