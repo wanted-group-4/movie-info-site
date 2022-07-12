@@ -1,40 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import axios from 'axios';
-import { debounce } from 'lodash';
+
+import { debounce, filter } from 'lodash';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { Input, Button } from '../elements';
 import SearchList from './SearchList';
+import { getMovies } from 'src/api/movieApi';
 
 interface SearchInputProps {
-  movies?: any;
+  handleSearchMovie: (reslut: any) => void;
 }
 
-interface ISearchData {
-  id: string;
-  title: string;
-  year: number;
-  type: string;
-  poster: string;
-  like: boolean;
-}
+const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
+  const { data } = getMovies();
 
-const SearchInput = ({ movies }: SearchInputProps) => {
   const [searchInput, setSearchInput] = useState('');
-  const [searchData, setSearchData] = useState<ISearchData[] | []>([]);
-  const [filterMovie, setFilterMovie] = useState<Array<object>>([]);
-  const [isInputFocus, setIsInputFocus] = useState(false);
+  const [filterMovie, setFilterMovie] = useState<any>([]);
+  const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
   const [recentKeyword, setRecentKeyword] = useState(
     JSON.parse(localStorage.getItem('recentkeyword') || '[]')
   );
 
-  const sendQuery = async (query: string) => {
-    console.log(query);
-    const { data } = await axios.get('http://localhost:3000/data/movies.json');
-    if (!data.movies.length) return setSearchData([]);
-    setSearchData([...data.movies]);
-    searchRecommend();
+  const sendQuery = (query: string) => {
+    const recommendMovie = filterSearchMovie(query);
+    setFilterMovie(recommendMovie.slice(0, 10));
   };
 
   const callDebounceQuery = debounce((value) => {
@@ -47,36 +37,34 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     } = event;
 
     if (checkIsEmpty(value)) {
-      setSearchData([]);
       setSearchInput('');
+      setFilterMovie([]);
+      return;
     }
-
-    callDebounceQuery(value);
+    callDebounceQuery(value.trim());
     setSearchInput(value.trim());
   };
 
-  const searchRecommend = () => {
-    const filterData = searchData.filter((movie: { title: string }) =>
-      movie.title.toLowerCase().includes(searchInput.toLowerCase())
+  const filterSearchMovie = (keyword: string) => {
+    const filterData = data.filter((movie: any) =>
+      movie.title.toLowerCase().includes(keyword)
     );
-    setFilterMovie(filterData);
+    return filterData;
   };
 
   const handleSearch = () => {
-    if (searchInput.length === 0) return;
-    // const filterData = movies.filter((movie: { title: string }) =>
-    //   movie.title.toLowerCase().includes(searchInput.toLowerCase())
-    // );
-    // console.log(filterData);
-    // setFilterMovie(filterData);
+    if (checkIsEmpty(searchInput)) return;
+
     setRecentKeyword([searchInput, ...recentKeyword]);
+    const searchMovie = filterSearchMovie(searchInput);
+    handleSearchMovie(searchMovie);
   };
 
-  const onCheckEnter = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (onCheckEnter(event.key)) handleSearch();
   };
+
+  const onCheckEnter = (key: string): boolean => key === 'Enter';
 
   const checkIsEmpty = (value: string): boolean => value.trim() === '';
 
@@ -98,11 +86,11 @@ const SearchInput = ({ movies }: SearchInputProps) => {
 
   return (
     <>
-      {isInputFocus && searchInput.length === 0 ? (
-        <SearchContainer>
-          <SearchInputWrapper>
+      <SearchInputContainer>
+        <SearchInputWrap>
+          <SearchBarWrap>
             <Input
-              onKeyPress={onCheckEnter}
+              onKeyDown={handleKeyDown}
               onChange={handleDebounce}
               onFocus={handleCheckIsFocus}
               onBlur={handleCheckIsFocus}
@@ -112,63 +100,45 @@ const SearchInput = ({ movies }: SearchInputProps) => {
             <Button onClick={handleSearch}>
               <AiOutlineSearch size={30} style={{ color: 'white' }} />
             </Button>
-          </SearchInputWrapper>
-          <SearchList recentKeyword={recentKeyword} />
-        </SearchContainer>
-      ) : isInputFocus ? (
-        <SearchContainer>
-          <SearchInputWrapper>
-            <Input
-              onKeyPress={onCheckEnter}
-              onChange={handleDebounce}
-              onFocus={handleCheckIsFocus}
-              onBlur={handleCheckIsFocus}
-              placeholder="영화 제목을 입력해주세요"
-              type="text"
+          </SearchBarWrap>
+          {isInputFocus && (
+            <SearchList
+              recentKeyword={recentKeyword}
+              filterMovie={filterMovie}
             />
-            <Button onClick={handleSearch}>
-              <AiOutlineSearch size={30} style={{ color: 'white' }} />
-            </Button>
-          </SearchInputWrapper>
-          <SearchList filterMovie={filterMovie} />
-        </SearchContainer>
-      ) : (
-        <SearchContainer>
-          <SearchInputWrapper>
-            <Input
-              onKeyPress={onCheckEnter}
-              onChange={handleDebounce}
-              onFocus={handleCheckIsFocus}
-              onBlur={handleCheckIsFocus}
-              placeholder="영화 제목을 입력해주세요"
-              type="text"
-            />
-            <Button onClick={handleSearch}>
-              <AiOutlineSearch size={30} style={{ color: 'white' }} />
-            </Button>
-          </SearchInputWrapper>
-        </SearchContainer>
-      )}
+          )}
+        </SearchInputWrap>
+      </SearchInputContainer>
     </>
   );
 };
 
 export default SearchInput;
 
-const SearchContainer = styled.div`
+const SearchInputContainer = styled.div`
+  width: 80%;
+  position: relative;
+  margin-bottom: 50px;
+`;
+
+const SearchInputWrap = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   margin: 0 auto;
   border: 2px solid ${({ theme }) => theme.color.white};
-  width: 80%;
+  width: 100%;
   border-radius: 20px;
   background: ${({ theme }) => theme.color.gray_01};
   overflow: hidden;
 `;
 
-const SearchInputWrapper = styled.div`
+const SearchBarWrap = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
