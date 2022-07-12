@@ -3,18 +3,20 @@ import styled from 'styled-components';
 
 interface propTypes {
   data: {
+    id?: number;
     title: string;
     summary: string;
     medium_cover_image: string;
     like: boolean;
   };
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 const PostCard = (props: propTypes) => {
-  const { data } = props;
+  const { data, onClick } = props;
 
   return (
-    <PostCardContainer>
+    <PostCardContainer onClick={onClick}>
       <img src={data.medium_cover_image} alt={data.title} />
       <div className="text">
         <div className="title">{data.title}</div>
@@ -32,6 +34,7 @@ const PostCard = (props: propTypes) => {
 export default PostCard;
 
 const PostCardContainer = styled.li`
+  width: 100%;
   cursor: pointer;
   position: relative;
   transition: all 300ms ease;
@@ -40,7 +43,7 @@ const PostCardContainer = styled.li`
     transform: scale(1.2);
   }
   img {
-    width: 200px;
+    width: 100%;
     height: 100%;
     border-radius: 4px;
   }
@@ -48,8 +51,8 @@ const PostCardContainer = styled.li`
     position: absolute;
     top: 0;
     left: 0;
-    width: 200px;
-    height: 300px;
+    width: 100%;
+    height: 100%;
     z-index: 999;
     line-height: 1.5;
     overflow: hidden;
