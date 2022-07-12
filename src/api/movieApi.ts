@@ -31,8 +31,8 @@ export const getMovieInBookmark = () => {
   return response;
 };
 
-export const patchMovieFavorite = (id: number, like: boolean) => {
+export const patchMovieFavorite = (id: number, favorite: boolean) => {
   serverApi
-    .patch(`/${id}`, { like: !like })
-    .catch((error) => console.log(error));
-};
+    .patch(`/${id}`, { like: !favorite })
+    .catch((error) => console.log(error))
+}
