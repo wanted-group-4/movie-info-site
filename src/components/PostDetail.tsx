@@ -1,16 +1,19 @@
 import React, { useState } from 'react'
 import styled, {css} from 'styled-components'
-import { AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
 import { MovieDetail } from 'src/types/Movie'
+import { patchMovieFavorite } from 'src/api/movieApi'
 
 const PostDetail = ({data}: any) => {
   const [open, setOpen] = useState(false)
   const {
     id,title, year, runtime, genres, like, background_image, medium_cover_image, description_full }: MovieDetail = data
-    
+
   return (
     <PostDetailContainer background_image={background_image}>
-      {/* <AiOutlineArrowLeft /> */}
+      <BackButton>
+         <AiOutlineArrowLeft />
+      </BackButton>
       <Container>
         <Title>{title}</Title>
         <Wrap>
@@ -20,7 +23,7 @@ const PostDetail = ({data}: any) => {
             <StyledBox>{genres[0]}</StyledBox>
           </StyledBoxWrap>
           <LikeButtonWrap>
-            <LikeButton>
+            <LikeButton onClick={()=>patchMovieFavorite(id, like)}>
               {like ?  <AiOutlineCheckCircle/> : <AiOutlinePlusCircle/>}
             </LikeButton>
             <LikeButtonText>찜한 콘텐츠</LikeButtonText>
@@ -43,7 +46,7 @@ const PostDetail = ({data}: any) => {
 
 export default PostDetail
 
-const PostDetailContainer = styled.div<DetailProps>`
+const PostDetailContainer = styled.div<{background_image: string}>`
   display: flex;
   justify-content: space-between;
   width:100vw;
@@ -53,6 +56,21 @@ const PostDetailContainer = styled.div<DetailProps>`
   url(${props => props.background_image}) no-repeat center;
   background-size: cover;
 `
+
+const BackButton = styled.div`
+  display: none;
+  position: absolute;
+  left: 2%;
+  top: 9%;
+  svg{
+    width:30px;
+    height: 30px;
+  }
+ @media ${({ theme }) => theme.deviceSize.max.mobile} {
+  display: block;
+ }
+`
+
 
 const Container = styled.div`
   width:55%;
@@ -128,12 +146,11 @@ const Description = styled.div`
   background: none;
 `
 
-const DescriptionText = styled.p<DetailProps>`
+const DescriptionText = styled.p<{open: boolean}>`
   font-size: 16px;
   line-height: 1.7;
   color: #d9d9d9;
   ${(props) => !props.open && css`
-    height:110px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -150,7 +167,7 @@ const AddButtonWrap = styled.div`
   background: none;
 `
 
-const AddIcon = styled.div<DetailProps>`
+const AddIcon = styled.div<{open: boolean}>`
   width:15px;
   height:15px;
   transform: ${(props) => props.open && 'rotate(180deg)'};
