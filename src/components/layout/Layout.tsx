@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 import Navigation from './Navigation';
 
-type LayoutProps = {
+interface LayoutProps {
   children: React.ReactNode;
-};
+}
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
@@ -18,6 +18,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 export default Layout;
 
-const Main = styled.main`
-  padding: 36px;
-`;
+const Main = styled.main``;

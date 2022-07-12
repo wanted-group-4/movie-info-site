@@ -1,77 +1,28 @@
-import axios from 'axios';
 import React, { useState } from 'react';
-import { useEffect } from 'react';
-import Card from 'src/components/Card';
-import PostCard from 'src/components/PostCard';
 import styled from 'styled-components';
 
-export interface movieInfo {
-  id: string;
-  title: string;
-  medium_cover_image: string,
-  summary?: string,
-  like: boolean
-}
+import { SearchInput } from 'src/components/search';
+import PostList from 'src/components/PostList';
 
 const Search = () => {
-  const [data, setData] = useState<boolean>(true)
-  const [movieInfo, setMovieInfo] = useState<movieInfo[]>([]);
-  const [reload, setReload] = useState(false);
-  
-  //영화 불러오기
-  useEffect(() => {
-    try {
-    axios.get('/data/movies.json')
-    .then(response => {
-      const { movies } = response.data
-      selectMovieInfo(movies)
-    })
-    } catch(error) {
-      console.log(error)
-    }
-  },[])
-  
-  //필요한 정보 뽑아오는 함수
-  const selectMovieInfo = (data: Array<movieInfo>) => {
-    const store: Array<movieInfo> = [];
-    for (let i = 0; i < data.length; i++) {
-      const { id, title, medium_cover_image, like } = data[i];
-      store.push({ id, title, medium_cover_image, like });
-    }
-    setMovieInfo([...movieInfo, ...store]);
-  }; 
-  
+  const [searchMovie, setSearchMovie] = useState<any>([]);
 
-  
-  console.log(movieInfo)
-
-  
+  const handleSearchMovie = (result: any) => {
+    setSearchMovie(result);
+  };
   return (
-    <>
-    <div>Search</div>
-    {!data ? (<div>검색 결과가 없습니다.</div>
-    ) 
-    : 
-    (
-    <div>
-      {movieInfo.map(cardInfo => <Card {...cardInfo} key={cardInfo.id}/>)}
-    </div>
-    )}
-    </>
+    <SearchContainer>
+      <SearchInput handleSearchMovie={handleSearchMovie} />
+      <PostList movieList={searchMovie} />
+    </SearchContainer>
   );
-}
+};
 
 export default Search;
 
-const Button = styled.button`
-  width: 4rem;
-  height: 2rem;
-  margin-left: 10px;
-  border-radius: 8%;
-  border: solid 1px;
-  color: white;
-  background-color: #000000;
-  :hover{
-    cursor: pointer;
-  }
+const SearchContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;

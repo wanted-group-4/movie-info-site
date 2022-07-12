@@ -1,35 +1,19 @@
 import React, { useState } from 'react'
 import styled, {css} from 'styled-components'
-import { AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
+import { AiOutlineArrowLeft, AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
+import { MovieDetail } from 'src/types/Movie'
+import { patchMovieFavorite } from 'src/api/movieApi'
 
-interface DetailProps {
-  title?: string;
-  year?: number;
-  runtime?: number;
-  genres?: string[]
-  like?: boolean;
-  background_image?: string;
-  medium_cover_image?: string;
-  src?: string;
-  open?: boolean
-}
-
-const PostDetail = () => {
+const PostDetail = ({data}: any) => {
   const [open, setOpen] = useState(false)
-  const [title, year, runtime, genres, like, description_full, background_image, medium_cover_image] =[
-    'Suicide',
-    2016,
-    123,
-    ['Action','Adventure','Fantasy','Sci-Fi'],
-    false,
-    "It feels good to be bad...Assemble a team of the world's most dangerous, incarcerated Super Villains, provide them with the most powerful arsenal at the government's disposal, and send them off on a mission to defeat an enigmatic, insuperable entity. U.S. intelligence officer Amanda Waller has determined only a secretly convened group of disparate, despicable individuals with next to nothing to lose will do. However, once they realize they weren't picked to succeed but chosen for their patent culpability when they inevitably fail, will the Suicide Squad resolve to die trying, or decide it's every man for himself?",
-    'https://yts.mx/assets/images/movies/suicide_squad_2016/background.jpg',
-    'https://yts.mx/assets/images/movies/suicide_squad_2016/medium-cover.jpg'
-  ] 
+  const {
+    id,title, year, runtime, genres, like, background_image, medium_cover_image, description_full }: MovieDetail = data
 
   return (
     <PostDetailContainer background_image={background_image}>
-      {/* <AiOutlineArrowLeft /> */}
+      <BackButton>
+         <AiOutlineArrowLeft />
+      </BackButton>
       <Container>
         <Title>{title}</Title>
         <Wrap>
@@ -39,7 +23,7 @@ const PostDetail = () => {
             <StyledBox>{genres[0]}</StyledBox>
           </StyledBoxWrap>
           <LikeButtonWrap>
-            <LikeButton>
+            <LikeButton onClick={()=>patchMovieFavorite(id, like)}>
               {like ?  <AiOutlineCheckCircle/> : <AiOutlinePlusCircle/>}
             </LikeButton>
             <LikeButtonText>찜한 콘텐츠</LikeButtonText>
@@ -62,7 +46,7 @@ const PostDetail = () => {
 
 export default PostDetail
 
-const PostDetailContainer = styled.div<DetailProps>`
+const PostDetailContainer = styled.div<{background_image: string}>`
   display: flex;
   justify-content: space-between;
   width:100vw;
@@ -72,6 +56,21 @@ const PostDetailContainer = styled.div<DetailProps>`
   url(${props => props.background_image}) no-repeat center;
   background-size: cover;
 `
+
+const BackButton = styled.div`
+  display: none;
+  position: absolute;
+  left: 2%;
+  top: 9%;
+  svg{
+    width:30px;
+    height: 30px;
+  }
+ @media ${({ theme }) => theme.deviceSize.max.mobile} {
+  display: block;
+ }
+`
+
 
 const Container = styled.div`
   width:55%;
@@ -147,12 +146,11 @@ const Description = styled.div`
   background: none;
 `
 
-const DescriptionText = styled.p<DetailProps>`
+const DescriptionText = styled.p<{open: boolean}>`
   font-size: 16px;
   line-height: 1.7;
   color: #d9d9d9;
   ${(props) => !props.open && css`
-    height:110px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -169,7 +167,7 @@ const AddButtonWrap = styled.div`
   background: none;
 `
 
-const AddIcon = styled.div<DetailProps>`
+const AddIcon = styled.div<{open: boolean}>`
   width:15px;
   height:15px;
   transform: ${(props) => props.open && 'rotate(180deg)'};

@@ -2,7 +2,7 @@ import { createGlobalStyle } from 'styled-components';
 import reset from 'styled-reset';
 
 const GlobalStyle = createGlobalStyle`
-  ${reset}
+  ${reset} 
   * {
     box-sizing: border-box;
     outline: none;
@@ -11,6 +11,9 @@ const GlobalStyle = createGlobalStyle`
   body {
     color: #fff;
     background-color:#212225;
+  }
+  button {
+    cursor: pointer;
   }
 `;
 
