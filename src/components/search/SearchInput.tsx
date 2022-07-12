@@ -124,7 +124,7 @@ const SearchInputWrap = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 99999;
   display: flex;
   justify-content: center;
   align-items: center;

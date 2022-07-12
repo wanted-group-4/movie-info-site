@@ -16,7 +16,6 @@ const SearchList = ({ recentKeyword, filterMovie }: SearchListProps) => {
     );
   }
 
-  console.log(filterMovie);
   return (
     <>
       {filterMovie.length > 0
