@@ -37,12 +37,16 @@ export const patchMovieFavorite = (id: number, favorite: boolean) => {
     .catch((error) => console.log(error));
 };
 
-export const getMovieByLatest = () => {
-  const response = useHttpRequest('?_sort=date_uploaded&_order=desc&_limit=10');
+export const getMovieByLatestOrder = (page: number) => {
+  const response = useHttpRequest(
+    `?_sort=date_uploaded&_order=desc&_page=${page}&_limit=10`
+  );
   return response;
 };
 
-export const getMovieByRanking = () => {
-  const response = useHttpRequest('?_sort=rating&_order=desc&_limit=10');
+export const getMovieByRankOrder = (page: number) => {
+  const response = useHttpRequest(
+    `?_sort=rating&_order=desc&_page=${page}&_limit=10`
+  );
   return response;
 };
