@@ -8,7 +8,7 @@ export const getMovies = () => {
   return response;
 };
 
-export const getMovieById = (id: number) => {
+export const getMovieById = (id: string | undefined) => {
   const response = useHttpRequest(`/${id}`);
   return response;
 };
