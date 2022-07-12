@@ -9,14 +9,13 @@ interface propTypes {
     medium_cover_image: string;
     like: boolean;
   };
-  onClick?: (event: React.MouseEvent) => void;
 }
 
 const PostCard = (props: propTypes) => {
-  const { data, onClick } = props;
+  const { data } = props;
 
   return (
-    <PostCardContainer onClick={onClick}>
+    <PostCardContainer>
       <img src={data.medium_cover_image} alt={data.title} />
       <div className="text">
         <div className="title">{data.title}</div>
@@ -38,7 +37,6 @@ const PostCardContainer = styled.li`
   cursor: pointer;
   position: relative;
   transition: all 300ms ease;
-  /* .selected { */
   &:hover {
     z-index: 9999;
     transform: scale(1.2);
@@ -46,7 +44,7 @@ const PostCardContainer = styled.li`
   img {
     width: 100%;
     height: 100%;
-    border-radius: 8px;
+    border-radius: 4px;
   }
   .text {
     position: absolute;
@@ -87,10 +85,16 @@ const PostCardContainer = styled.li`
         opacity: 1;
       }
     }
-    /* .selected { */
     &:hover {
       z-index: 999;
       opacity: 0.9;
+    }
+  }
+  @media screen and (max-width: 770px) {
+    img,
+    .text {
+      width: 160px;
+      height: 100%;
     }
   }
 `;
