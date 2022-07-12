@@ -1,88 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import PostList from 'src/components/PostList';
-import { getMovieByPage } from 'src/api/movieApi';
+import axios from 'axios';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import Card from 'src/components/Card';
+import PostCard from 'src/components/PostCard';
 import styled from 'styled-components';
 
-
-
+export interface movieInfo {
+  id: string;
+  title: string;
+  medium_cover_image: string,
+  summary?: string,
+  like: boolean
+}
 
 const Search = () => {
-  const [load, setReload] = useState<boolean>(false);
-  const [movies, setMovies] = useState<any>([])
-  const [page, setPage] = useState(1);
-  const [accuracyTab, setAccuracyTab] = useState<boolean>(false);
-  const [ratingTab, setRatingTab] = useState<boolean>(false); 
-  const [latestTab, setLatestTab] = useState<boolean>(false); 
+  const [data, setData] = useState<boolean>(true)
+  const [movieInfo, setMovieInfo] = useState<movieInfo[]>([]);
+  const [reload, setReload] = useState(false);
   
-  console.log(page,'페이지 계속 바뀌나???')
+  //영화 불러오기
+  useEffect(() => {
+    try {
+    axios.get('/data/movies.json')
+    .then(response => {
+      const { movies } = response.data
+      selectMovieInfo(movies)
+    })
+    } catch(error) {
+      console.log(error)
+    }
+  },[])
   
-    const movieInfo = getMovieByPage(page);
+  //필요한 정보 뽑아오는 함수
+  const selectMovieInfo = (data: Array<movieInfo>) => {
+    const store: Array<movieInfo> = [];
+    for (let i = 0; i < data.length; i++) {
+      const { id, title, medium_cover_image, like } = data[i];
+      store.push({ id, title, medium_cover_image, like });
+    }
+    setMovieInfo([...movieInfo, ...store]);
+  }; 
   
-    useEffect(() => {
-     const {data} = movieInfo
-      if(data === null) {
-       //setPage(page+1) 
-       return;
-      }else {
-       setMovies([...movies, ...data]) 
-      }
-   },[page])
-   
 
-  const accuracy = () => {
-    console.log('정확도순');
-    setAccuracyTab(true);
-    setRatingTab(false);
-    setLatestTab(false);
-  };
-  const ratingRanking = () => {
-    console.log('평점순')
-    setAccuracyTab(false);
-    setRatingTab(true)
-    setLatestTab(false);
-   
-  }
-  const latest = () => {
-    console.log('최신순')
-    setRatingTab(false);
-    setLatestTab(false);
-    setLatestTab(true)
-
-  }
+  
+  console.log(movieInfo)
 
   
   return (
     <>
-      <div>Search</div>
-      <Button onClick={accuracy}>정확도순</Button>
-      <Button onClick={ratingRanking}>평점순</Button>
-      <Button onClick={latest}>최신순</Button>
-  
-      {!accuracyTab && !ratingTab && !latestTab ? (
-        <>
-          <PostList
-            data={movies}
-            page={page}
-            setPage={setPage}
-          />
-        </>
-      ) : accuracyTab ? (
-        <>
-          <div> 정확도순</div>
-
-          {/*  <PostList /> */}
-        </>
-      ) : ratingTab ? (
-        <>
-          <div>평점순</div>
-          {/*  <PostList /> */}
-        </>
-      ) : latestTab ? (
-        <>
-          <div>최신순</div>
-          {/*  <PostList /> */}
-        </>
-      ) : null}
+    <div>Search</div>
+    {!data ? (<div>검색 결과가 없습니다.</div>
+    ) 
+    : 
+    (
+    <div>
+      {movieInfo.map(cardInfo => <Card {...cardInfo} key={cardInfo.id}/>)}
+    </div>
+    )}
     </>
   );
 }

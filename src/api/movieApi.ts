@@ -11,8 +11,13 @@ export const getMovieById = (id: number) => {
   return response;
 };
 
+<<<<<<< HEAD
 export const getMovieByPage = (page: number) => {
   const response:any = useHttpRequest(`?_page=${page}&_limit=10`);
+=======
+export const getMovieByPage = (page: string) => {
+  const response = useHttpRequest(`?_page=${page}&_limit=10`);
+>>>>>>> parent of 81655af (feat: 데이터불러오기)
   return response;
 };
 

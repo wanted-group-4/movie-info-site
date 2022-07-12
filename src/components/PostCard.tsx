@@ -8,6 +8,7 @@ interface propTypes {
     medium_cover_image: string;
     like: boolean;
   };
+  onClick: (event: React.MouseEvent<JSX.Element>) => void;
 }
 
 const PostCard = (props: propTypes) => {
