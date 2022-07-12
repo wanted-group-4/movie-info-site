@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router'
 import { AiOutlineArrowLeft, AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
@@ -6,13 +6,22 @@ import { AiOutlineArrowLeft, AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusC
 import { MovieDetail } from 'src/types/Movie'
 import { patchMovieFavorite } from 'src/api/movieApi'
 
+interface PostDetailProps {
+  data: any;
+  getSimilarList: (genre: string) => void;
+}
 
-const PostDetail = ({data}: any) => {
+const PostDetail = ({ data, getSimilarList }: PostDetailProps) => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
+
   const {
     id,title, year, runtime, genres, like, background_image, medium_cover_image, description_full }: MovieDetail = data
 
+    useEffect(() => {
+      getSimilarList(genres[0])
+    },[])
+  
   return (
     <PostDetailContainer background_image={background_image}>
       <BackButton onClick={()=>navigate(-1)}>
