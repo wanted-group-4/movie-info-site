@@ -1,4 +1,4 @@
-import { useHttpRequest } from './useFetch';
+import { useHttpRequest } from './useHttpRequest';
 import serverApi from '.';
 
 import { MovieCard } from 'src/types/Movie';
