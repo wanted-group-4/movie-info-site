@@ -10,7 +10,7 @@ const Detail = () => {
   return loading ? (
     <div>Loading...</div>
   ) : (
-    data !== null && <PostDetail data={data} />
+    data !== null && <PostDetail movie={data} />
   );
 };
 
