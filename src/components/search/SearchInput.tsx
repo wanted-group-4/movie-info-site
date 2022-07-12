@@ -9,6 +9,7 @@ import { getMovies } from '../../api/movieApi';
 
 interface SearchInputProps {
   movies?: any;
+  handleFilterMovie?: any;
 }
 
 interface ISearchData {
@@ -20,11 +21,12 @@ interface ISearchData {
   like: boolean;
 }
 
-const SearchInput = ({ movies }: SearchInputProps) => {
-  const [movieList, setMovieList] = useState([]);
+const SearchInput = ({ handleFilterMovie }: SearchInputProps) => {
+  const { data, loading, error } = getMovies();
+
+  const [recommendedMovie, setRecommendedMovie] = useState<any>([]);
   const [searchInput, setSearchInput] = useState('');
   const [searchData, setSearchData] = useState<ISearchData[] | []>([]);
-  const [filterMovie, setFilterMovie] = useState<Array<object>>([]);
   const [isInputFocus, setIsInputFocus] = useState(false);
   const [recentKeyword, setRecentKeyword] = useState(
     JSON.parse(localStorage.getItem('recentkeyword') || '[]')
@@ -32,9 +34,9 @@ const SearchInput = ({ movies }: SearchInputProps) => {
 
   const sendQuery = async (query: string) => {
     console.log(query);
-    const { data } = await movies;
-    if (!data) return setSearchData([]);
-    setSearchData([...data]);
+    const { movie } = await data;
+    if (!movie) return setSearchData([]);
+    setSearchData([...movie]);
     searchRecommend();
   };
 
@@ -60,15 +62,16 @@ const SearchInput = ({ movies }: SearchInputProps) => {
     const filterData = searchData.filter((movie: { title: string }) =>
       movie.title.toLowerCase().includes(searchInput.toLowerCase())
     );
-    setFilterMovie(filterData);
+    handleFilterMovie(filterData);
+    setRecommendedMovie(filterData);
   };
 
   const handleSearch = () => {
     if (searchInput.length === 0) return;
-    const filterData = searchData.filter((movie: { title: string }) =>
+    const filterData = data.filter((movie: { title: string }) =>
       movie.title.toLowerCase().includes(searchInput.toLowerCase())
     );
-    setFilterMovie(filterData);
+    handleFilterMovie(filterData);
     setRecentKeyword([searchInput, ...recentKeyword]);
   };
 
@@ -130,7 +133,7 @@ const SearchInput = ({ movies }: SearchInputProps) => {
               <AiOutlineSearch size={30} style={{ color: 'white' }} />
             </Button>
           </SearchInputWrapper>
-          <SearchList filterMovie={filterMovie} />
+          <SearchList filterMovie={recommendedMovie} />
         </SearchContainer>
       ) : (
         <SearchContainer>

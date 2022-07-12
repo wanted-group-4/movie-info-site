@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import { SearchInput } from 'src/components/search';
+import PostList from 'src/components/PostList';
 
 const Search = () => {
+  const [filterMovie, setFilterMovie] = useState([]);
+
+  const handleFilterMovie = (result: any) => {
+    setFilterMovie(result);
+  };
+
   return (
     <SearchContainer>
-      <SearchInput />
+      <SearchInput handleFilterMovie={handleFilterMovie} />
+      <PostList movieList={filterMovie} />
     </SearchContainer>
   );
 };
