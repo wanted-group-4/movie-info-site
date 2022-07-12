@@ -9,13 +9,14 @@ interface propTypes {
     medium_cover_image: string;
     like: boolean;
   };
+  onClick?: (event: React.MouseEvent) => void;
 }
 
 const PostCard = (props: propTypes) => {
-  const { data } = props;
+  const { data, onClick } = props;
 
   return (
-    <PostCardContainer>
+    <PostCardContainer onClick={onClick}>
       <img src={data.medium_cover_image} alt={data.title} />
       <div className="text">
         <div className="title">{data.title}</div>

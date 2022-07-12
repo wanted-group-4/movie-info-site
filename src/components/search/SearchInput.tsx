@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { debounce, filter } from 'lodash';
+import { debounce } from 'lodash';
 import { AiOutlineSearch } from 'react-icons/ai';
 
 import { Input, Button } from '../elements';
