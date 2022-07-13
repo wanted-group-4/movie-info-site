@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { TbArrowBigLeft, TbArrowBigRight } from 'react-icons/tb';
 
-import { IMovie } from '../types/Movie';
+import { IMovie } from '../../types/Movie';
 import PostCard from './PostCard';
-import useWindowDimensions from '../utils/useWindowDimensions';
+import useWindowDimensions from '../../utils/useWindowDimensions';
 
 interface PostRowProps {
   movies?: [] | IMovie[];
 }
 
-const PostRow: React.FC<PostRowProps> = ({ movies }) => {
+const PostRow: React.FC<PostRowProps> = memo(({ movies }) => {
   const LEN = movies ? movies?.length : 0;
   const rowRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowDimensions();
@@ -21,21 +21,21 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
     default: 2,
   });
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setSelected((prev) => {
       if (prev - 1 < 0) return prev;
       else if (prev - setting.step < 2) return prev - 1;
       return prev - setting.step;
     });
-  };
-  const handleNext = () => {
+  }, [selected, setting, LEN]);
+  const handleNext = useCallback(() => {
     setSelected((prev) => {
-      if (prev === -1) return Math.min(LEN - 1, setting.default);
+      if (prev === -1) return Math.min(LEN - 1, setting.default + setting.step);
       if (prev + 1 >= LEN) return prev;
       else if (prev + setting.step > LEN) return prev + 1;
       return prev + setting.step;
     });
-  };
+  }, [selected, setting, LEN]);
 
   useEffect(() => {
     if (!rowRef.current) return;
@@ -65,7 +65,7 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
 
   return (
     <PostRowContainer>
-      {selected > 0 && (
+      {selected > setting.step && (
         <IconWrapper onClick={handlePrev} className="left">
           <TbArrowBigLeft />
         </IconWrapper>
@@ -78,14 +78,16 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
           </div>
         ))}
       </div>
-      {selected < LEN - 1 && (
+      {selected < LEN - setting.step && (
         <IconWrapper onClick={handleNext} className="right">
           <TbArrowBigRight />
         </IconWrapper>
       )}
     </PostRowContainer>
   );
-};
+});
+
+PostRow.displayName = 'PostRow';
 
 export default PostRow;
 
@@ -139,7 +141,7 @@ const IconWrapper = styled.button`
   position: absolute;
   top: 50%;
   width: 48px;
-  height: 72%;
+  height: 84%;
   display: flex;
   justify-content: center;
   align-items: center;
