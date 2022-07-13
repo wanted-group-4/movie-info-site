@@ -2,10 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { AiOutlineSearch } from 'react-icons/ai';
 import { BiTime } from 'react-icons/bi';
+import { IMovie } from '../../types/Movie';
 
 interface SearchListProps {
-  recentKeyword?: string[];
-  filterMovie?: any;
+  recentKeyword: string[];
+  filterMovie: IMovie[] | [];
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,13 +20,13 @@ const SearchList = ({ recentKeyword, filterMovie }: SearchListProps) => {
   return (
     <>
       {filterMovie.length > 0
-        ? filterMovie.map((movie: any, index: number) => (
+        ? filterMovie.map((movie: IMovie, index: number) => (
             <RecommentListContainer key={index}>
               <AiOutlineSearch size={20} style={{ marginRight: '10px' }} />
               {movie.title}
             </RecommentListContainer>
           ))
-        : recentKeyword?.map((keyword: string, index: number) => (
+        : recentKeyword.map((keyword: string, index: number) => (
             <RecentListContainer key={index}>
               <BiTime size={20} style={{ marginRight: '10px' }} />
               {keyword}

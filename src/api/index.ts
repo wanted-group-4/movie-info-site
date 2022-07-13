@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
-const serverApi = axios.create({
+const serverApi: AxiosInstance = axios.create({
   baseURL: 'http://localhost:4000/movies',
 });
 
