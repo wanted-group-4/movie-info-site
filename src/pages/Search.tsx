@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { SearchInput } from 'src/components/search';
 import PostList from 'src/components/PostList';
 import {
-  getMovieByLatest,
-  getMovieByRanking,
+  getMovieByPage,
+  getMovieByRating,
 } from 'src/api/movieApi';
 
 const Search = () => {
@@ -29,8 +29,8 @@ const Search = () => {
    },[page])
   
   // 데이터 가져오는 함수
-  const ratingMovieData = getMovieByRanking(page)
-  const latestMovieData = getMovieByLatest(page)
+  const ratingMovieData = getMovieByRating(page)
+  const latestMovieData = getMovieByPage(page)
 
   const handleSearchMovie = (result: any) => {
     setSearchMovie(result);
