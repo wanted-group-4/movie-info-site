@@ -11,9 +11,8 @@ interface PostCardProps {
     like: boolean;
     id: number;
   };
-  handleSelect: (index: number) => void;
-  cardIdx: number;
-  selectedIdx: number;
+  cardIdx?: number;
+  selectedIdx?: number;
 }
 
 const PostCard = (props: PostCardProps) => {
@@ -32,19 +31,10 @@ const PostCard = (props: PostCardProps) => {
   ) => {
     event.currentTarget.src = '/images/noimage.png';
   };
-  const setSelect = () => {
-    cardIdx === selectedIdx
-      ? props.handleSelect(-1)
-      : props.handleSelect(cardIdx);
-  };
-  const handleSelect = () => {
-    setSelect();
-    handleNavigate();
-  };
 
   return (
     <PostCardContainer
-      onClick={handleSelect}
+      onClick={handleNavigate}
       style={{ display: loading ? 'none' : 'block' }}
       className={cardIdx === selectedIdx ? 'selected' : ''}
     >
@@ -78,9 +68,9 @@ const PostCardContainer = styled.li`
   width: 100%;
   cursor: pointer;
   position: relative;
-  transition: all 300ms ease;
+  transition: all 600ms ease;
   user-select: none;
-  &.selected {
+  &:hover {
     z-index: 9999;
     transform: scale(1.3);
     .text {
