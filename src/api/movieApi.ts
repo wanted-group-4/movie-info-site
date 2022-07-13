@@ -11,7 +11,6 @@ export const getMovieById = (id: number) => {
   const response = useHttpRequest<IMovie>({ url: `/${id}` });
   return response;
 };
-
 export const getMovieByPage = (page: number) => {
   const response = useHttpRequest<IMovie[] | []>({
     url: `?_page=${page}&_limit=10`,
@@ -35,6 +34,20 @@ export const getMovieByGenre = (genre: string) => {
 
 export const getMovieInBookmark = () => {
   const response = useHttpRequest<IMovie[] | []>({ url: '?like=true' });
+  return response;
+};
+
+export const getMovieByLatestOrder = (page: number) => {
+  const response = useHttpRequest<IMovie[] | []>({
+    url: `?_sort=date_uploaded&_order=desc&_page=${page}&_limit=10`,
+  });
+  return response;
+};
+
+export const getMovieByRankOrder = (page: number) => {
+  const response = useHttpRequest<IMovie[] | []>({
+    url: `?_sort=rating&_order=desc&_page=${page}&_limit=10`,
+  });
   return response;
 };
 

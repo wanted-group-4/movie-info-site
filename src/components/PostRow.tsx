@@ -4,7 +4,7 @@ import { IMovie } from '../types/Movie';
 import PostCard from './PostCard';
 
 interface PostRowProps {
-  movies: [] | IMovie[] | null;
+  movies?: [] | IMovie[];
 }
 
 const PostRow: React.FC<PostRowProps> = ({ movies }) => {

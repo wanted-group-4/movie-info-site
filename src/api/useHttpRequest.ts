@@ -7,7 +7,7 @@ interface UseHttpRequestProps {
 }
 
 export const useHttpRequest = <T>({ url }: UseHttpRequestProps) => {
-  const [data, setData] = useState<T | null>(null);
+  const [data, setData] = useState<T | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<AxiosError | null>(null);
 

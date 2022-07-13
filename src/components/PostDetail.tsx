@@ -12,7 +12,7 @@ import { IMovie, IMovieDetail } from 'src/types/Movie';
 import { patchMovieFavorite } from 'src/api/movieApi';
 
 interface PostDetailProps {
-  movie: IMovie;
+  movie?: IMovie;
 }
 
 const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {
@@ -28,7 +28,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {
     background_image,
     medium_cover_image,
     description_full,
-  }: IMovieDetail = movie;
+  }: IMovieDetail = movie as IMovie;
 
   return (
     <PostDetailContainer background_image={background_image}>
