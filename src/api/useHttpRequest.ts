@@ -1,19 +1,26 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import serverApi from './index';
+import { AxiosError } from 'axios';
 
-export const useHttpRequest = (url: string) => {
-  const [data, setData] = useState<any | null>(null);
+interface UseHttpRequestProps {
+  url: string;
+}
+
+export const useHttpRequest = <T>({ url }: UseHttpRequestProps) => {
+  const [data, setData] = useState<T | undefined>();
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<any | null>(null);
+  const [error, setError] = useState<AxiosError | null>(null);
 
   useEffect(() => {
     async function getData() {
       setLoading(true);
-      const response = await serverApi
+      await serverApi
         .get(url)
+        .then((response: any) => {
+          setData(response);
+          setLoading(false);
+        })
         .catch((error) => setError(error));
-      setData(response);
-      setLoading(false);
     }
     getData();
   }, [url]);

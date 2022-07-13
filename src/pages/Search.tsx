@@ -2,12 +2,13 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { SearchInput } from 'src/components/search';
 import PostList from 'src/components/PostList';
+import { IMovie } from '../types/Movie';
 import { getMovieByPage, getMovieByRating } from 'src/api/movieApi';
 
 const Search = () => {
-  const [searchMovie, setSearchMovie] = useState<any>([]);
-  const [ratingMovie, setRatingMovie] = useState<string[]>([]);
-  const [latestMovie, setLatestMovie] = useState<string[]>([]);
+  const [searchMovie, setSearchMovie] = useState<IMovie[] | []>([]);
+  const [ratingMovie, setRatingMovie] = useState<IMovie[] | []>([]);
+  const [latestMovie, setLatestMovie] = useState<IMovie[] | []>([]);
   const [page, setPage] = useState<number>(0);
 
   //탭 변환
@@ -28,7 +29,7 @@ const Search = () => {
   const ratingMovieData = getMovieByRating(page);
   const latestMovieData = getMovieByPage(page);
 
-  const handleSearchMovie = (result: any) => {
+  const handleSearchMovie = (result: IMovie[] | []) => {
     setSearchMovie(result);
   };
 
@@ -41,12 +42,14 @@ const Search = () => {
     setRatingTab(true);
     setLatestTab(false);
     const { data } = ratingMovieData;
+    if (!data) return setLatestMovie([...latestMovie]);
     setRatingMovie([...ratingMovie, ...data]);
   };
   const goToLatestTab = () => {
     setRatingTab(false);
     setLatestTab(true);
     const { data } = latestMovieData;
+    if (!data) return setLatestMovie([...latestMovie]);
     setLatestMovie([...latestMovie, ...data]);
   };
 
