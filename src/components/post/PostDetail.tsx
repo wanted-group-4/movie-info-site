@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router';
 import {
@@ -37,14 +37,15 @@ const PostDetail: React.FC<PostDetailProps> = ({
     description_full,
   }: IMovieDetail = movie as IMovie;
 
-  const patchLike = useCallback(() => {
+  const patchLike = () => {
     patchMovieFavorite(id, like);
     setIsLiked(!isLiked);
-  }, [isLiked]);
+  }
 
   useEffect(() => {
     getSimilarList(genres[0]);
-  }, []);
+    setIsLiked(like);
+  }, [id,like]);
 
   return (
     <PostDetailContainer>
