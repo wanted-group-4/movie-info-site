@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useRef, useState, useEffect } from 'react';
-=======
 import React, { useRef } from 'react';
->>>>>>> e4792efa31a5f30d6dacc502e9aace0430636eae
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import PostCard from './PostCard';
