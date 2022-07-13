@@ -1,10 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { AiFillHome } from 'react-icons/ai';
 import { SearchBar } from '../elements';
 
 const Navigation = () => {
+  const { pathname } = useLocation() as { pathname: string };
+  const isSearchPage = pathname === '/search';
+
   return (
     <NavWrapper>
       <div>
@@ -13,7 +16,7 @@ const Navigation = () => {
         </NavLink>
         <NavLink to="bookmark">즐겨찾기</NavLink>
       </div>
-      <SearchBar />
+      {!isSearchPage && <SearchBar />}
     </NavWrapper>
   );
 };
