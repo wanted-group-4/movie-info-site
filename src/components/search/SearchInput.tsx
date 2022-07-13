@@ -13,13 +13,20 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
   const { data } = getMovies() as { data: IMovie[] };
+  const loadedRecentKeyword = localStorage.getItem('recentKeyword')
+    ? JSON.parse(localStorage.getItem('recentKeyword')!)
+    : [];
 
+  const [recentKeyword, setRecentKeyword] = useState(loadedRecentKeyword);
   const [searchInput, setSearchInput] = useState<string>('');
   const [filterMovie, setFilterMovie] = useState<IMovie[] | []>([]);
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
-  const [recentKeyword, setRecentKeyword] = useState(
-    JSON.parse(localStorage.getItem('recentkeyword') || '[]')
-  );
+
+  const handleInnterText = (innerText: string) => {
+    console.log(innerText);
+    setSearchInput(innerText.trim());
+    handleSearch();
+  };
 
   const sendQuery = (query: string) => {
     const recommendMovie = filterSearchMovie(query);
@@ -79,7 +86,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
       ? [...recentKeyword.slice(0, -1)]
       : recentKeyword;
 
-    localStorage.setItem('recentKeyword', JSON.stringify(newRecentKeyword));
+    window.localStorage.setItem(
+      'recentKeyword',
+      JSON.stringify(newRecentKeyword)
+    );
     setRecentKeyword(newRecentKeyword);
   }, [recentKeyword]);
 
@@ -92,9 +102,10 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
               onKeyDown={handleKeyDown}
               onChange={handleDebounce}
               onFocus={handleCheckIsFocus}
-              onBlur={handleCheckIsFocus}
+              // onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
+              value={searchInput}
             />
             <Button onClick={handleSearch}>
               <AiOutlineSearch size={30} style={{ color: 'white' }} />
@@ -104,6 +115,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
             <SearchList
               recentKeyword={recentKeyword}
               filterMovie={filterMovie}
+              handleInnterText={handleInnterText}
             />
           )}
         </SearchInputWrap>

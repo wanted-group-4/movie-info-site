@@ -4,6 +4,7 @@ import styled from 'styled-components';
 interface StyledProps {
   type: string;
   placeholder?: string;
+  value: string;
 }
 
 interface InputProps extends StyledProps {
@@ -15,7 +16,15 @@ interface InputProps extends StyledProps {
 
 const Input = forwardRef(
   (
-    { onChange, onKeyDown, onFocus, onBlur, placeholder, type }: InputProps,
+    {
+      onChange,
+      onKeyDown,
+      onFocus,
+      onBlur,
+      placeholder,
+      type,
+      value,
+    }: InputProps,
     ref: React.Ref<HTMLInputElement>
   ) => {
     return (
@@ -27,6 +36,7 @@ const Input = forwardRef(
         onChange={onChange}
         onFocus={onFocus}
         onBlur={onBlur}
+        value={value || ''}
       />
     );
   }
