@@ -5,10 +5,10 @@ import { AiOutlineLeft, AiOutlineRight } from 'react-icons/ai'
 import useWindowDimensions from 'src/utils/useWindowDimensions';
 import React from 'react';
 import Slide from './Slide';
-import { MovieCard } from 'src/types/Movie';
+import { IMovie } from 'src/types/Movie';
 
 interface SliderProps {
-  movieList: MovieCard[]
+  movieList: IMovie[]
 }
 
 const Slider = ({movieList}:SliderProps) => {

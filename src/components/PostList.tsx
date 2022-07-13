@@ -48,7 +48,6 @@ const PostList: React.FC<PostListProps> = ({ movieList, page, setPage }) => {
             {movieList.map((movie, index) => (
               <PostCard
                 key={index}
-                onClick={() => handleClick(movie.id)}
                 data={{
                   id: movie.id,
                   title: movie.title,

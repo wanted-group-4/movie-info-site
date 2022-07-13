@@ -19,16 +19,15 @@ const Detail = () => {
     const array = randomIndex(response.length, 30).map((x) => response[x]);
     setSimilarMovie(array);
   };
-
   return (
     <>
-      {data !== null && (
+      {data !== undefined && (
         <Backgound background_image={data.background_image}>
           <PostDetail movie={data} getSimilarList={getSimilarList} />
-          <SimilarMovieWrap>
+          {similarMovie !== [] && (<SimilarMovieWrap>
             <SimilarMovieTitle>비슷한 영화</SimilarMovieTitle>
             {similarMovie !== null && <Slider movieList={similarMovie} />}
-          </SimilarMovieWrap>
+          </SimilarMovieWrap>)}
         </Backgound>
       )}
     </>
