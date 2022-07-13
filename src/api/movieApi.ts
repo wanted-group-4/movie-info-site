@@ -11,6 +11,7 @@ export const getMovieById = (id: number) => {
   const response = useHttpRequest<IMovie>({ url: `/${id}` });
   return response;
 };
+
 export const getMovieByPage = (page: number) => {
   const response = useHttpRequest<IMovie[] | []>({
     url: `?_page=${page}&_limit=10`,

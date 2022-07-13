@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { SearchInput } from 'src/components/search';
-import PostList from 'src/components/PostList';
+import PostList from '../components/post/PostList';
 import { IMovie } from '../types/Movie';
-import { getMovieByPage, getMovieByRating } from 'src/api/movieApi';
+import { getMovieByPage, getMovieByRating } from '../api/movieApi';
 
 const Search = () => {
   const [searchMovie, setSearchMovie] = useState<IMovie[] | []>([]);

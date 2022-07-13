@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import serverApi from 'src/api';
 import { getMovieById } from 'src/api/movieApi';
-import PostDetail from 'src/components/PostDetail';
+import PostDetail from '../components/post/PostDetail';
 import randomIndex from 'src/utils/randomIndex';
 import Slider from 'src/components/slider/Slider';
 import { IMovie } from 'src/types/Movie';

@@ -21,7 +21,7 @@ const PostCard = memo((props: PostCardProps) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
-    navigate(`detail/${data.id}`);
+    navigate(`/detail/${data.id}`);
   };
   const handleLoad = () => {
     setLoading(() => false);
@@ -79,6 +79,9 @@ const PostCardContainer = styled.li`
       z-index: 999;
       opacity: 0.9;
       overflow: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
   .imgBox {

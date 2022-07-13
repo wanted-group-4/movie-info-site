@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import { useNavigate } from 'react-router';
-import PostCard from './PostCard';
-import { IMovie } from '../types/Movie';
+import PostCard from '../post/PostCard';
+import { IMovie } from '../../types/Movie';
 
 interface PostListProps {
   movieList?: IMovie[] | [];
@@ -17,10 +16,7 @@ interface IOptions {
 }
 
 const PostList: React.FC<PostListProps> = ({ movieList, page, setPage }) => {
-  const navigate = useNavigate();
   const target = useRef<HTMLDivElement>(null);
-
-  const handleClick = (id: number): void => navigate(`/detail/${id}`);
 
   if (page !== undefined) {
     const options: IOptions = {
@@ -48,7 +44,6 @@ const PostList: React.FC<PostListProps> = ({ movieList, page, setPage }) => {
             {movieList.map((movie, index) => (
               <PostCard
                 key={index}
-                onClick={() => handleClick(movie.id)}
                 data={{
                   id: movie.id,
                   title: movie.title,

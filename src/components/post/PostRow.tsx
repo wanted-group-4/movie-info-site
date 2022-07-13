@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import styled from 'styled-components';
 import { TbArrowBigLeft, TbArrowBigRight } from 'react-icons/tb';
 
-import { IMovie } from '../types/Movie';
+import { IMovie } from '../../types/Movie';
 import PostCard from './PostCard';
-import useWindowDimensions from '../utils/useWindowDimensions';
+import useWindowDimensions from '../../utils/useWindowDimensions';
 
 interface PostRowProps {
   movies?: [] | IMovie[];
