@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router';
 import {
@@ -12,12 +12,15 @@ import { IMovie, IMovieDetail } from 'src/types/Movie';
 import { patchMovieFavorite } from 'src/api/movieApi';
 
 interface PostDetailProps {
-  movie?: IMovie;
+  movie: IMovie;
+  getSimilarList: (genre: string) => void;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {
-  const [open, setOpen] = useState(false);
+const PostDetail: React.FC<PostDetailProps> = ({ movie, getSimilarList }) => {
+  const [open, setOpen] = useState<boolean>(false);
+  const [isLiked, setIsLiked] = useState<boolean>(movie.like);
   const navigate = useNavigate();
+
   const {
     id,
     title,
@@ -25,13 +28,21 @@ const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {
     runtime,
     genres,
     like,
-    background_image,
     medium_cover_image,
     description_full,
   }: IMovieDetail = movie as IMovie;
 
+  const patchLike = useCallback(() => {
+    patchMovieFavorite(id, like);
+    setIsLiked(!isLiked);
+  }, [isLiked]);
+
+  useEffect(() => {
+    getSimilarList(genres[0]);
+  }, []);
+
   return (
-    <PostDetailContainer background_image={background_image}>
+    <PostDetailContainer>
       <BackButton onClick={() => navigate(-1)}>
         <AiOutlineArrowLeft />
       </BackButton>
@@ -45,13 +56,13 @@ const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {
             <StyledBox>{genres[0]}</StyledBox>
           </StyledBoxWrap>
           <LikeButtonWrap>
-            <LikeButton onClick={() => patchMovieFavorite(id, like)}>
-              {like ? <AiOutlineCheckCircle /> : <AiOutlinePlusCircle />}
+            <LikeButton onClick={patchLike}>
+              {isLiked ? <AiOutlineCheckCircle /> : <AiOutlinePlusCircle />}
             </LikeButton>
             <LikeButtonText>찜한 콘텐츠</LikeButtonText>
           </LikeButtonWrap>
         </Wrap>
-        <DescriptionWrap>
+        <DescriptionWrap open={open}>
           <Description>
             <DescriptionText open={open}>{description_full}</DescriptionText>
             <AddButtonWrap>
@@ -72,17 +83,13 @@ const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {
 
 export default PostDetail;
 
-const PostDetailContainer = styled.div<{ background_image: string }>`
+const PostDetailContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  height: 650px;
   padding: 5% 9%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #212225 100%),
-    url(${(props) => props.background_image}) no-repeat center;
-  background-size: cover;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
-    height: 400px;
     padding: 0;
     background: none;
     display: block;
@@ -93,7 +100,7 @@ const BackButton = styled.div`
   display: none;
   position: absolute;
   left: 2%;
-  top: 9%;
+  top: 3%;
   svg {
     width: 25px;
     height: 25px;
@@ -122,7 +129,7 @@ const MobilePoster = styled.div<{ url: string }>`
       rgba(26, 27, 29, 0.9) 80%,
       #212225 100%
     ),
-    url(${(props) => props.url}) no-repeat;
+    url(${(props) => props.url}) no-repeat center;
   background-size: 100%;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     display: block;
@@ -150,7 +157,7 @@ const Wrap = styled.div`
   margin: 40px 0;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     margin: 15px 0 20px;
-    width: 100%;
+    width: 98%;
   }
 `;
 
@@ -178,12 +185,11 @@ const StyledBox = styled.div`
 
 const LikeButtonWrap = styled.div`
   text-align: center;
-  @media ${({ theme }) => theme.deviceSize.max.mobile} {
-  }
 `;
 
 const LikeButton = styled.div`
   margin-bottom: 5px;
+  cursor: pointer;
   svg {
     width: 40px;
     height: 40px;
@@ -204,25 +210,26 @@ const LikeButtonText = styled.span`
   color: #d9d9d9;
 `;
 
-const DescriptionWrap = styled.div`
+const DescriptionWrap = styled.div<{ open: boolean }>`
   position: relative;
 `;
 
 const Description = styled.div`
-  position: absolute;
+  position: relative;
 `;
 
 const DescriptionText = styled.p<{ open: boolean }>`
   font-size: 16px;
   line-height: 1.7;
   color: #d9d9d9;
-  ${(props) =>
-    !props.open &&
+  -webkit-line-clamp: 100;
+  ${({ open }) =>
+    !open &&
     css`
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 4;
+      -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
     `}
 `;
@@ -236,7 +243,7 @@ const AddButtonWrap = styled.div`
 const AddIcon = styled.div<{ open: boolean }>`
   width: 15px;
   height: 15px;
-  transform: ${(props) => props.open && 'rotate(180deg)'};
+  transform: ${({ open }) => !open && 'rotate(180deg)'};
 `;
 
 const AddButton = styled.button`
