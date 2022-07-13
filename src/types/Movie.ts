@@ -1,4 +1,4 @@
-interface MovieCard {
+export interface IMovie {
   id: number;
   imdb_code: string;
   title: string;
@@ -7,6 +7,7 @@ interface MovieCard {
   slug: string;
   year: number;
   rating: number;
+  runtime: number;
   genres: Array<string>;
   summary: string;
   description_full: string;
@@ -25,10 +26,7 @@ interface MovieCard {
   like: boolean;
 }
 
-export { MovieCard };
-
-
-export interface MovieDetail {
+export interface IMovieDetail {
   id: number;
   title: string;
   year: number;
