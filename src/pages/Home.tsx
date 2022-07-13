@@ -16,6 +16,9 @@ const Home = () => {
     'Biography',
     'Documentary',
   ].sort();
+  const handleStep = (event: InputEvent) => {
+    const target = event.target as HTMLSelectElement;
+  };
 
   return (
     <HomeContainer>
@@ -37,6 +40,10 @@ export default Home;
 
 const HomeContainer = styled.ul`
   position: relative;
+  .selectWrapper {
+    position: sticky;
+    right: 0;
+  }
   .row {
     h1 {
       position: absolute;

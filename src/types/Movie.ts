@@ -33,6 +33,9 @@ interface CardProps {
     like: boolean;
     id: number;
   };
+  handleSelect: (index: number) => void;
+  cardIdx: number;
+  selectedIdx: number;
 }
 
 export { Card, CardProps };

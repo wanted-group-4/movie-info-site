@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+// import { MdLocalMovies, MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
 <<<<<<< HEAD
 interface propTypes {
@@ -19,12 +20,12 @@ import { CardProps } from 'src/types/Movie';
 
 const PostCard = (props: CardProps) => {
   const [loading, setLoading] = useState(true);
-  const { data } = props;
+  const { data, selectedIdx, cardIdx } = props;
   const navigate = useNavigate();
-  const handleClick = () => {
+
+  const handleNavigate = () => {
     navigate(`detail/${data.id}`);
   };
-
   const handleLoad = () => {
     setLoading(() => false);
   };
@@ -33,11 +34,23 @@ const PostCard = (props: CardProps) => {
   ) => {
     event.currentTarget.src = '/images/noimage.png';
   };
+  const setSelect = () => {
+    cardIdx === selectedIdx
+      ? props.handleSelect(-1)
+      : props.handleSelect(cardIdx);
+  };
+  const handleClick = () => {
+    setSelect();
+    handleNavigate();
+  };
 
   return (
     <PostCardContainer
+      // onClick={setSelect}
+      // onDoubleClick={handleNavigate}
       onClick={handleClick}
       style={{ display: loading ? 'none' : 'block' }}
+      className={cardIdx === selectedIdx ? 'selected' : ''}
     >
       <div className="imgBox">
         <img
@@ -67,10 +80,16 @@ const PostCardContainer = styled.li`
   cursor: pointer;
   position: relative;
   transition: all 300ms ease;
-  /* user-select: none; */
+  user-select: none;
+  /* &.selected { */
   &:hover {
     z-index: 9999;
     transform: scale(1.3);
+    .text {
+      z-index: 999;
+      opacity: 0.9;
+      overflow: scroll;
+    }
   }
 <<<<<<< HEAD
   img {
@@ -102,7 +121,18 @@ const PostCardContainer = styled.li`
     border: 16px solid transparent;
     background-color: #212225;
     opacity: 0;
-    overflow: scroll;
+    overflow: hidden;
+    .icon {
+      text-align: right;
+      transition: all 300ms ease;
+      * {
+        &:hover {
+          color: ${({ theme }) => theme.color.secondary_01};
+          transform: scale(1.1);
+        }
+        margin: 0 4px;
+      }
+    }
     .title {
       display: -webkit-box;
       -webkit-line-clamp: 2; /* 라인수 */
@@ -131,6 +161,10 @@ const PostCardContainer = styled.li`
     &:hover {
       z-index: 999;
       opacity: 0.9;
+    }
+    .details {
+      color: white;
+      background-color: black;
     }
   }
   @media screen and (max-width: 770px) {
