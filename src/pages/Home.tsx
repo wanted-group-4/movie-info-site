@@ -6,19 +6,22 @@ import PostRow from 'src/components/PostRow';
 
 const Home = () => {
   const genres = [
-    'Action',
     'Adventure',
-    'Comedy',
     'Reality-TV',
     'Talk-Show',
-    'Crime',
-    'Drama',
-    'Biography',
+    'Action',
     'Documentary',
+    'Music',
+    'Horror',
+    'Comedy',
+    'Biography',
+    'Drama',
+    'Crime',
+    'Romance',
+    'Fantasy',
+    'Thriller',
+    'News',
   ].sort();
-  const handleStep = (event: InputEvent) => {
-    const target = event.target as HTMLSelectElement;
-  };
 
   return (
     <HomeContainer>
