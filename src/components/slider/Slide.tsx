@@ -1,7 +1,7 @@
 import React from 'react';
 import { IMovie } from 'src/types/Movie';
 import styled from 'styled-components';
-import PostCard from '../PostCard';
+import PostCard from '../post/PostCard';
 
 interface SlideProps {
   data: any;
@@ -10,7 +10,6 @@ interface SlideProps {
 }
 
 const Slide = ({ data, currentIndex, viewWidth }: SlideProps) => {
-
   return (
     <SlideWrap currentIndex={currentIndex} viewWidth={viewWidth}>
       {data &&

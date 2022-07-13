@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { getMovieByRating, getMovieByGenre } from 'src/api/movieApi';
 
-import PostRow from 'src/components/PostRow';
+import PostRow from '../components/post/PostRow';
 
 const Home = () => {
   const genres = [
