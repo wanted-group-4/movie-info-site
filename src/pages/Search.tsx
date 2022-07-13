@@ -12,13 +12,13 @@ const Search = () => {
   const [searchMovie, setSearchMovie] = useState<any>([]);
   const [ratingMovie, setRatingMovie] = useState<string[]>([]);
   const [latestMovie, setLatestMovie] = useState<string[]>([]);
-  const [page, setPage] = useState<number>(0)
+  const [page, setPage] = useState<number>(1)
 
   //탭 변환
   const [ratingTab, setRatingTab] = useState<boolean>(false);
   const [latestTab, setLatestTab] = useState<boolean>(false);
 
-  // console.log(page,'page')
+   console.log(page,'page')
    useEffect(() => {
      if(ratingTab === true) {
        goToRatingTab()
@@ -54,6 +54,11 @@ const Search = () => {
       setLatestMovie([...latestMovie, ...data]); 
     };
 
+    function handlePage () {
+      setPage((prev) => prev + 1);
+    }
+
+
   return (
     <>
       <SearchContainer>
@@ -65,11 +70,11 @@ const Search = () => {
           </ButtonContainer>
         {ratingTab ? (
           <>
-            <PostList movieList={ratingMovie} page={page} setPage={setPage} />
+            <PostList movieList={ratingMovie} handlePage={handlePage} />
           </>
         ) : latestTab ? (
           <>
-            <PostList movieList={latestMovie} page={page} setPage={setPage} />
+            <PostList movieList={latestMovie} handlePage={handlePage} />
           </>
         ) : (
           <>
