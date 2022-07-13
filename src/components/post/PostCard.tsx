@@ -70,7 +70,7 @@ const PostCardContainer = styled.li`
   width: 100%;
   cursor: pointer;
   position: relative;
-  transition: all 600ms ease;
+  transition: all 300ms ease;
   user-select: none;
   &:hover {
     z-index: 9999;
