@@ -1,22 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-// import { MdLocalMovies, MdFavorite, MdFavoriteBorder } from 'react-icons/md';
+import { MdLocalMovies, MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
-<<<<<<< HEAD
-interface propTypes {
-  data: {
-    title: string;
-    summary: string;
-    medium_cover_image: string;
-    like: boolean;
-    id: number;
-  };
-  onClick?: (event: React.MouseEvent) => void;
-}
-=======
 import { CardProps } from 'src/types/Movie';
->>>>>>> 3cb6b06 (feat: PostCard 이미지 onLoad, onError 콜백함수 추가)
 
 const PostCard = (props: CardProps) => {
   const [loading, setLoading] = useState(true);
@@ -39,16 +26,11 @@ const PostCard = (props: CardProps) => {
       ? props.handleSelect(-1)
       : props.handleSelect(cardIdx);
   };
-  const handleClick = () => {
-    setSelect();
-    handleNavigate();
-  };
 
   return (
     <PostCardContainer
-      // onClick={setSelect}
-      // onDoubleClick={handleNavigate}
-      onClick={handleClick}
+      onClick={setSelect}
+      onDoubleClick={handleNavigate}
       style={{ display: loading ? 'none' : 'block' }}
       className={cardIdx === selectedIdx ? 'selected' : ''}
     >
@@ -61,6 +43,10 @@ const PostCard = (props: CardProps) => {
         />
       </div>
       <div className="text">
+        <div className="icons">
+          {data.like ? <MdFavorite /> : <MdFavoriteBorder />}
+          <MdLocalMovies onClick={handleNavigate} />
+        </div>
         <div className="title">{data.title}</div>
         {data.summary && (
           <div className="desc">
@@ -81,8 +67,7 @@ const PostCardContainer = styled.li`
   position: relative;
   transition: all 300ms ease;
   user-select: none;
-  /* &.selected { */
-  &:hover {
+  &.selected {
     z-index: 9999;
     transform: scale(1.3);
     .text {
@@ -91,12 +76,6 @@ const PostCardContainer = styled.li`
       overflow: scroll;
     }
   }
-<<<<<<< HEAD
-  img {
-    width: 100%;
-    height: 100%;
-    border-radius: 4px;
-=======
   .imgBox {
     width: 200px;
     height: 300px;
@@ -105,7 +84,6 @@ const PostCardContainer = styled.li`
       height: 100%;
       border-radius: 4px;
     }
->>>>>>> 3cb6b06 (feat: PostCard 이미지 onLoad, onError 콜백함수 추가)
   }
   .text {
     position: absolute;
@@ -122,15 +100,18 @@ const PostCardContainer = styled.li`
     background-color: #212225;
     opacity: 0;
     overflow: hidden;
-    .icon {
-      text-align: right;
-      transition: all 300ms ease;
+    .icons {
+      position: fixed;
+      top: 4px;
+      right: 4px;
       * {
+        margin: 0 2px;
+        transition: all 300ms ease;
+        font-size: 12px;
         &:hover {
-          color: ${({ theme }) => theme.color.secondary_01};
           transform: scale(1.1);
+          color: ${({ theme }) => theme.color.secondary_01};
         }
-        margin: 0 4px;
       }
     }
     .title {
@@ -141,6 +122,7 @@ const PostCardContainer = styled.li`
       text-align: center;
       font-size: 20px;
       font-weight: 800;
+      border-top: 12px solid #212225;
       border-bottom: 12px solid #212225;
     }
     .desc {

@@ -14,7 +14,7 @@ const PostList: React.FC<PostListProps> = ({ movieList }) => {
 
   return (
     <PostListContainer>
-      {movieList.length > 0 ? (
+      {/* {movieList.length > 0 ? (
         <Grid>
           {movieList.map((movie, index) => (
             <PostCard
@@ -32,7 +32,7 @@ const PostList: React.FC<PostListProps> = ({ movieList }) => {
         </Grid>
       ) : (
         <NoMovieList>검색 결과가 없습니다.</NoMovieList>
-      )}
+      )} */}
     </PostListContainer>
   );
 };

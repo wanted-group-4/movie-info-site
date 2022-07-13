@@ -11,11 +11,11 @@ interface propsType {
 
 const PostRow = (props: propsType) => {
   const rowRef = useRef<HTMLDivElement>(null);
-  const DEFAULT = 3;
-  const [selected, setSelected] = useState<number>(DEFAULT);
+  const [selected, setSelected] = useState<number>(-1);
   const { data } = props;
   const LEN = data ? data?.length : 0;
-  const STEP = 6;
+  const STEP = 5;
+  const DEFAULT = 2;
 
   const handlePrev = () => {
     setSelected((prev) => {
@@ -26,7 +26,7 @@ const PostRow = (props: propsType) => {
   };
   const handleNext = () => {
     setSelected((prev) => {
-      if (prev === -1) return Math.min(LEN - 1, DEFAULT + STEP);
+      if (prev === -1) return Math.min(LEN - 1, DEFAULT);
       if (prev + 1 >= LEN) return prev;
       else if (prev + STEP > LEN) return prev + 1;
       return prev + STEP;
@@ -45,7 +45,7 @@ const PostRow = (props: propsType) => {
 
   return (
     <PostRowContainer>
-      {selected > STEP && (
+      {selected !== -1 && (
         <IconWrapper onClick={handlePrev} className="left">
           <TbArrowBigLeft />
         </IconWrapper>
