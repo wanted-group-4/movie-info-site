@@ -32,7 +32,6 @@ const PostList: React.FC<PostListProps> = ({ movieList, handlePage }) => {
       observer.observe(target.current);
     }
 
-
   return (
     <>
       <PostListContainer>

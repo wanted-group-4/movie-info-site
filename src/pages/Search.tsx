@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { SearchInput } from 'src/components/search';
 import PostList from 'src/components/PostList';
-import {
-  getMovieByPage,
-  getMovieByRating,
-} from 'src/api/movieApi';
+import { getMovieByPage, getMovieByRating } from 'src/api/movieApi';
 
 const Search = () => {
-  
   const [searchMovie, setSearchMovie] = useState<any>([]);
   const [ratingMovie, setRatingMovie] = useState<string[]>([]);
   const [latestMovie, setLatestMovie] = useState<string[]>([]);
@@ -29,30 +25,30 @@ const Search = () => {
    },[page])
   
   // 데이터 가져오는 함수
-  const ratingMovieData = getMovieByRating(page)
-  const latestMovieData = getMovieByPage(page)
+  const ratingMovieData = getMovieByRating(page);
+  const latestMovieData = getMovieByPage(page);
 
   const handleSearchMovie = (result: any) => {
     setSearchMovie(result);
   };
 
   // 정확도/평점순/최신순 탭
-    const goToAccuracy = () => {
-      setRatingTab(false)
-      setLatestTab(false)
-    }
-    const goToRatingTab = () => {
-      setRatingTab(true)
-      setLatestTab(false)
-      const { data } = ratingMovieData;
-      setRatingMovie([...ratingMovie, ...data]); 
-    };
-    const goToLatestTab = () => {
-      setRatingTab(false);
-      setLatestTab(true);
-      const { data } = latestMovieData;
-      setLatestMovie([...latestMovie, ...data]); 
-    };
+  const goToAccuracy = () => {
+    setRatingTab(false);
+    setLatestTab(false);
+  };
+  const goToRatingTab = () => {
+    setRatingTab(true);
+    setLatestTab(false);
+    const { data } = ratingMovieData;
+    setRatingMovie([...ratingMovie, ...data]);
+  };
+  const goToLatestTab = () => {
+    setRatingTab(false);
+    setLatestTab(true);
+    const { data } = latestMovieData;
+    setLatestMovie([...latestMovie, ...data]);
+  };
 
     function handlePage () {
       setPage((prev) => prev + 1);
@@ -63,11 +59,11 @@ const Search = () => {
     <>
       <SearchContainer>
         <SearchInput handleSearchMovie={handleSearchMovie} />
-          <ButtonContainer>
-            <Button onClick={goToAccuracy}>정확도순</Button>
-            <Button onClick={goToRatingTab}>평점순</Button>
-            <Button onClick={goToLatestTab}>최신순</Button>
-          </ButtonContainer>
+        <ButtonContainer>
+          <Button onClick={goToAccuracy}>정확도순</Button>
+          <Button onClick={goToRatingTab}>평점순</Button>
+          <Button onClick={goToLatestTab}>최신순</Button>
+        </ButtonContainer>
         {ratingTab ? (
           <>
             <PostList movieList={ratingMovie} handlePage={handlePage} />
@@ -107,7 +103,7 @@ const Button = styled.button`
   }
 `;
 const ButtonContainer = styled.div`
-  margin-top: 1rem; 
+  margin-top: 1rem;
   position: relative;
-  left: -35%
-`
+  left: -35%;
+`;
