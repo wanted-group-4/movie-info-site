@@ -30,7 +30,7 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
   };
   const handleNext = () => {
     setSelected((prev) => {
-      if (prev === -1) return Math.min(LEN - 1, setting.default);
+      if (prev === -1) return Math.min(LEN - 1, setting.default + setting.step);
       if (prev + 1 >= LEN) return prev;
       else if (prev + setting.step > LEN) return prev + 1;
       return prev + setting.step;
@@ -65,7 +65,7 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
 
   return (
     <PostRowContainer>
-      {selected > 0 && (
+      {selected > setting.step && (
         <IconWrapper onClick={handlePrev} className="left">
           <TbArrowBigLeft />
         </IconWrapper>
@@ -78,7 +78,7 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
           </div>
         ))}
       </div>
-      {selected < LEN - 1 && (
+      {selected < LEN - setting.step && (
         <IconWrapper onClick={handleNext} className="right">
           <TbArrowBigRight />
         </IconWrapper>
@@ -139,7 +139,7 @@ const IconWrapper = styled.button`
   position: absolute;
   top: 50%;
   width: 48px;
-  height: 72%;
+  height: 84%;
   display: flex;
   justify-content: center;
   align-items: center;
