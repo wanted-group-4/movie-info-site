@@ -29,7 +29,7 @@ const Detail = () => {
   };
 
   return (
-    <div
+    <DetailContainer
       style={{
         display: !loading.background && !loading.movie ? 'none' : 'block',
       }}
@@ -54,11 +54,15 @@ const Detail = () => {
           )}
         </Background>
       )}
-    </div>
+    </DetailContainer>
   );
 };
 
 export default Detail;
+
+const DetailContainer = styled.div`
+  margin-bottom: 480px;
+`;
 
 const Background = styled.div<{ background_image: string }>`
   position: relative;
@@ -86,6 +90,7 @@ const SimilarMovieTitle = styled.h1`
   font-weight: 700;
   padding-left: 20px;
 `;
+
 const SimilarMovieWrap = styled.div`
   position: relative;
   width: 100%;
