@@ -2,45 +2,57 @@ import React, { useRef, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import PostCard from './PostCard';
+import {IMovie} from '../types/Movie';
 
 interface PostListProps {
-  movieList: any[]; // movieList 연결 필요
+  movieList: IMovie[] | []; // movieList 연결 필요
   handlePage?: () => void;
+  setReload?: any
 }
 
-const PostList: React.FC<PostListProps> = ({ movieList, handlePage }) => {
+const PostList: React.FC<PostListProps> = ({
+  movieList,
+  handlePage,
+  setReload,
+}) => {
   const navigate = useNavigate();
   const target = useRef<HTMLDivElement>(null);
-  
 
   const handleClick = (id: string): void => navigate(`/detail/${id}`);
 
   // if (page !== undefined) {
-    const options: any = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5,
-    };
-    const callback = (entries: any) => {
-      if (entries[0].isIntersecting === true) {
-        setTimeout(() => handlePage, 300); 
-      }
-    };
-    const observer: any = new IntersectionObserver(callback, options);
+  const options: object = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.5,
+  };
+  const callback = (entries: IntersectionObserverEntry[]) => {
+   // if (entries[0].isIntersecting === true) {
+      return setReload(entries[0].isIntersecting);
+     // return;
+     /*  if (!handlePage) return;
+      setTimeout(() => handlePage(), 100);
+      return; */
+      // observer.unobserve(target.current)
+      //  setTimeout(() => setReload(true), 500)
+      //setReload(entries[0].isIntersecting);
+    //}
+  };
+  const observer: any = new IntersectionObserver(callback, options);
 
-    if (target.current) {
-      observer.observe(target.current);
-    }
+  if (target.current) {
+    observer.observe(target.current);
+  }
 
   return (
     <>
       <PostListContainer>
         {movieList.length > 0 ? (
           <Grid>
-            {movieList.map((movie, index) => (
+            {movieList.map((movie: any, index: number) => (
               <PostCard
                 key={index}
-                onClick={() => handleClick(movie.id)}
+                /*  onClick={() => handleClick(movie.id)} */
                 data={{
                   id: movie.id,
                   title: movie.title,

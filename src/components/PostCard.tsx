@@ -16,7 +16,7 @@ interface PostCardProps {
   selectedIdx: number;
 }
 
-const PostCard = (props: PostCardProps) => {
+const PostCard = (props: any) => {
   const [loading, setLoading] = useState(true);
   const { data, selectedIdx, cardIdx } = props;
   const navigate = useNavigate();

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
-import { MovieCard } from 'src/types/Movie';
+import { IMovie } from 'src/types/Movie';
 import styled from 'styled-components';
 import PostCard from '../PostCard';
 
@@ -18,7 +18,7 @@ const Slide = ({ data, currentIndex, viewWidth }: SlideProps) => {
     <SlideWrap currentIndex={currentIndex} viewWidth={viewWidth}>
       {data &&
         data.map(
-          (movie: MovieCard, index: number) =>
+          (movie: IMovie, index: number) =>
             movie && (
               <PostCard
                 key={index}

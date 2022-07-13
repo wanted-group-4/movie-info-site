@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { IMovie } from '../types/Movie';
+import PostCard from './PostCard';
 import { TbArrowBigLeft, TbArrowBigRight } from 'react-icons/tb';
 
-import PostCard from './PostCard';
-import { MovieCard } from '../types/Movie';
-
-interface propsType {
-  data?: MovieCard[];
+interface PostRowProps {
+  movies?: [] | IMovie[];
 }
 
-const PostRow = (props: propsType) => {
+const PostRow: React.FC<PostRowProps> = ({ movies }) => {
   const rowRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number>(-1);
-  const { data } = props;
-  const LEN = data ? data?.length : 0;
+
+  const LEN = movies ? movies?.length : 0;
   const STEP = 5;
   const DEFAULT = 2;
 
@@ -51,15 +50,15 @@ const PostRow = (props: propsType) => {
         </IconWrapper>
       )}
       <div className="innerRow" ref={rowRef}>
-        {data?.map((item, index) => (
-          <div key={item.id} className="item">
+        {movies?.map((movie, index) => (
+          <div key={movie.id} className="item">
             <PostCard
-              data={item}
+              data={movie}
               selectedIdx={selected}
               cardIdx={index}
               handleSelect={handleSelect}
             />
-            <p className="bottom">{item.title}</p>
+            <p className="bottom">{movie.title}</p>
           </div>
         ))}
       </div>
