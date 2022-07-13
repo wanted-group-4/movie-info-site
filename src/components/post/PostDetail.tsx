@@ -52,7 +52,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ movie, getSimilarList }) => {
         <Wrap>
           <StyledBoxWrap>
             <StyledBox>{year}</StyledBox>
-            <StyledBox>{runtime}</StyledBox>
+            <StyledBox>{`${runtime}분`}</StyledBox>
             <StyledBox>{genres[0]}</StyledBox>
           </StyledBoxWrap>
           <LikeButtonWrap>
@@ -87,7 +87,7 @@ const PostDetailContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
-  width: 100vw;
+  width: 100%;
   padding: 5% 9%;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     padding: 0;
@@ -114,7 +114,7 @@ const Container = styled.div`
   width: 55%;
   max-width: 850px;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
-    padding: 20px;
+    padding: 25px;
     width: 100vw;
   }
 `;

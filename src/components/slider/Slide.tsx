@@ -47,7 +47,7 @@ const SlideWrap = styled.ul<{ currentIndex: number; viewWidth: number }>`
   }
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     left: ${({ currentIndex, viewWidth }) =>
-      `-${currentIndex * Math.floor(viewWidth / 4.4)}px`};
+      `-${currentIndex * Math.floor(viewWidth / 4.7)}px`};
     li {
       margin-right: 10px;
     }
@@ -55,6 +55,6 @@ const SlideWrap = styled.ul<{ currentIndex: number; viewWidth: number }>`
 
   @media (max-width: 500px) {
     left: ${({ currentIndex, viewWidth }) =>
-      `-${currentIndex * Math.floor(viewWidth / 2.3)}px`};
+      `-${currentIndex * Math.floor(viewWidth / 3)}px`};
   }
 `;
