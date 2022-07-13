@@ -1,46 +1,67 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
+import { TbArrowBigLeft, TbArrowBigRight } from 'react-icons/tb';
+
 import { IMovie } from '../types/Movie';
 import PostCard from './PostCard';
-import { TbArrowBigLeft, TbArrowBigRight } from 'react-icons/tb';
+import useWindowDimensions from '../utils/useWindowDimensions';
 
 interface PostRowProps {
   movies?: [] | IMovie[];
 }
 
 const PostRow: React.FC<PostRowProps> = ({ movies }) => {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const [selected, setSelected] = useState<number>(-1);
-
   const LEN = movies ? movies?.length : 0;
-  const STEP = 5;
-  const DEFAULT = 2;
+  const rowRef = useRef<HTMLDivElement>(null);
+  const { width } = useWindowDimensions();
+  const [selected, setSelected] = useState<number>(-1);
+  const [setting, setSetting] = useState({
+    size: 132,
+    step: 1,
+    default: 2,
+  });
 
   const handlePrev = () => {
     setSelected((prev) => {
       if (prev - 1 < 0) return prev;
-      else if (prev - STEP < 2) return prev - 1;
-      return prev - STEP;
+      else if (prev - setting.step < 2) return prev - 1;
+      return prev - setting.step;
     });
   };
   const handleNext = () => {
     setSelected((prev) => {
-      if (prev === -1) return Math.min(LEN - 1, DEFAULT);
+      if (prev === -1) return Math.min(LEN - 1, setting.default);
       if (prev + 1 >= LEN) return prev;
-      else if (prev + STEP > LEN) return prev + 1;
-      return prev + STEP;
+      else if (prev + setting.step > LEN) return prev + 1;
+      return prev + setting.step;
     });
-  };
-  const handleSelect = (index: number): void => {
-    setSelected(() => index);
   };
 
   useEffect(() => {
     if (!rowRef.current) return;
     if (selected < 2 || selected > LEN) return;
-    rowRef.current.style.marginLeft = `-${132 * (selected - DEFAULT)}px`;
-    // rowRef.current.style.marginLeft = `-${232 * (selected - DEFAULT)}px`;
-  }, [selected]);
+    rowRef.current.style.marginLeft = `-${
+      setting.size * (selected - setting.default)
+    }px`;
+  }, [selected, setting]);
+
+  useEffect(() => {
+    if (width > 770) {
+      setSetting((setting) => ({
+        ...setting,
+        size: 200 + 60,
+        step: Math.floor(width / (200 + 60)),
+        default: Math.floor(width / (200 + 60) / 2),
+      }));
+    } else {
+      setSetting((setting) => ({
+        ...setting,
+        size: 120 + 60,
+        step: Math.floor(width / (120 + 60)),
+        default: Math.floor(width / (120 + 60) / 2),
+      }));
+    }
+  }, [width]);
 
   return (
     <PostRowContainer>
@@ -52,12 +73,7 @@ const PostRow: React.FC<PostRowProps> = ({ movies }) => {
       <div className="innerRow" ref={rowRef}>
         {movies?.map((movie, index) => (
           <div key={movie.id} className="item">
-            <PostCard
-              data={movie}
-              selectedIdx={selected}
-              cardIdx={index}
-              handleSelect={handleSelect}
-            />
+            <PostCard data={movie} selectedIdx={selected} cardIdx={index} />
             <p className="bottom">{movie.title}</p>
           </div>
         ))}
@@ -87,7 +103,7 @@ const PostRowContainer = styled.div`
       display: none;
     }
     .item {
-      margin-right: 32px;
+      margin-right: 60px;
       .bottom {
         padding: 4px 12px;
         width: 200px;
@@ -108,7 +124,7 @@ const PostRowContainer = styled.div`
       padding: 32px 0 0 32px;
       height: 248px;
       .item {
-        margin-right: 12px;
+        margin-right: 60px;
         .bottom {
           padding: 4px 0;
           width: 120px;
@@ -123,7 +139,7 @@ const IconWrapper = styled.button`
   position: absolute;
   top: 50%;
   width: 48px;
-  height: 48px;
+  height: 72%;
   display: flex;
   justify-content: center;
   align-items: center;
