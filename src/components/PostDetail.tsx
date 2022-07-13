@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, {useCallback, useEffect, useState } from 'react'
 import styled, { css } from 'styled-components'
 import { useNavigate } from 'react-router'
 import { AiOutlineArrowLeft, AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusCircle } from 'react-icons/ai'
@@ -6,17 +6,32 @@ import { AiOutlineArrowLeft, AiOutlineCheckCircle, AiOutlineDown, AiOutlinePlusC
 import { MovieDetail } from 'src/types/Movie'
 import { patchMovieFavorite } from 'src/api/movieApi'
 
+interface PostDetailProps {
+  data: any;
+  getSimilarList: (genre: string) => void;
+}
 
-const PostDetail = ({data}: any) => {
-  const [open, setOpen] = useState(false)
+const PostDetail = ({ data, getSimilarList }: PostDetailProps) => {
+  const [open, setOpen] = useState<boolean>(false)
+  const [like, setLike] = useState<boolean>(data.like)
   const navigate = useNavigate()
-  const {
-    id,title, year, runtime, genres, like, background_image, medium_cover_image, description_full }: MovieDetail = data
 
+   const {
+    id,title, year, runtime, genres, background_image, medium_cover_image, description_full }: MovieDetail = data
+
+  const patchLike = useCallback(() => {
+    patchMovieFavorite(id, like)
+    setLike(!like)
+  },[like])
+
+  useEffect(() => {
+    getSimilarList(genres[0])
+  },[])
+  
   return (
-    <PostDetailContainer background_image={background_image}>
+    <PostDetailContainer >
       <BackButton onClick={()=>navigate(-1)}>
-         <AiOutlineArrowLeft />
+        <AiOutlineArrowLeft />
       </BackButton>
       <MobilePoster url={medium_cover_image}/>
       <Container>
@@ -28,17 +43,17 @@ const PostDetail = ({data}: any) => {
             <StyledBox>{genres[0]}</StyledBox>
           </StyledBoxWrap>
           <LikeButtonWrap>
-            <LikeButton onClick={()=>patchMovieFavorite(id, like)}>
+            <LikeButton onClick={patchLike}>
               {like ?  <AiOutlineCheckCircle/> : <AiOutlinePlusCircle/>}
             </LikeButton>
             <LikeButtonText>찜한 콘텐츠</LikeButtonText>
           </LikeButtonWrap>
         </Wrap>
-        <DescriptionWrap>
+        <DescriptionWrap open={open}>
           <Description >
             <DescriptionText open={open}>{description_full}</DescriptionText>
             <AddButtonWrap>
-            <AddButton onClick={()=>setOpen(!open)}>{open ? '닫기' : '더보기'}</AddButton>
+            <AddButton onClick={()=> setOpen(!open)}>{open ? '닫기' : '더보기'}</AddButton>
             <AddIcon open={open}><AiOutlineDown/></AddIcon>
             </AddButtonWrap>
           </Description>
@@ -51,17 +66,14 @@ const PostDetail = ({data}: any) => {
 
 export default PostDetail
 
-const PostDetailContainer = styled.div<{ background_image: string }>`
+
+const PostDetailContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: space-between;
   width:100vw;
-  height:650px;
   padding:5% 9%;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #212225 100%),
-  url(${props=> props.background_image}) no-repeat center;
-  background-size: cover;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
-    height: 400px;
     padding:0;
     background: none;
     display: block;
@@ -72,7 +84,7 @@ const BackButton = styled.div`
   display: none;
   position: absolute;
   left: 2%;
-  top: 9%;
+  top: 3%;
   svg{
     width:25px;
     height: 25px;
@@ -93,10 +105,10 @@ const Container = styled.div`
 
 const MobilePoster = styled.div<{url:string}>`
   display: none;
-  width:100vw;
+  width: 100vw;
   height: 450px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(26, 27, 29, 0.9) 80%, #212225 100%),
-  url(${props => props.url}) no-repeat;
+  url(${props => props.url}) no-repeat center;
   background-size: 100%;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     display: block;
@@ -104,7 +116,7 @@ const MobilePoster = styled.div<{url:string}>`
 `
 
 const Title = styled.h1`
-  width:430px;
+  width: 430px;
   font-size: 45px;
   font-weight: bold;
   color:#d9d9d9;
@@ -123,8 +135,8 @@ const Wrap = styled.div`
   align-items: flex-start;
   margin: 40px 0;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
-    margin:15px 0 20px;
-    width: 100%;
+    margin: 15px 0 20px;
+    width: 98%;
   }
 `
 
@@ -139,7 +151,7 @@ const StyledBox = styled.div`
   border-radius: 5px;
   text-align: center;
   font-size: 15px;
-  padding:6px 13px;
+  padding: 6px 13px;
   margin-right: 12px;
   color: #d9d9d9;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
@@ -152,24 +164,22 @@ const StyledBox = styled.div`
 
 const LikeButtonWrap = styled.div`
   text-align: center;
-  @media ${({ theme }) => theme.deviceSize.max.mobile} {
-    
-  }
 `
 
 const LikeButton = styled.div`
   margin-bottom: 5px;
+  cursor: pointer;
   svg{
-    width:40px;
-    height:40px;
+    width: 40px;
+    height: 40px;
     path{
       color: #d9d9d9;
     }
   }
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     svg{
-      width:35px;
-      height:35px;
+      width: 35px;
+      height: 35px;
     }
   }
 `
@@ -179,23 +189,24 @@ const LikeButtonText = styled.span`
   color: #d9d9d9;
 `
 
-const DescriptionWrap = styled.div`
+const DescriptionWrap = styled.div<{open:boolean}>`
   position: relative;
 `
 
 const Description = styled.div`
-  position:absolute;
+  position: relative;
 `
 
-const DescriptionText = styled.p<{open: boolean}>`
+const DescriptionText = styled.p<{open:boolean}>`
   font-size: 16px;
   line-height: 1.7;
   color: #d9d9d9;
-  ${props => !props.open && css`
+  -webkit-line-clamp: 100;
+  ${({ open }) => !open && css`
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   `}
 `
@@ -208,9 +219,9 @@ const AddButtonWrap = styled.div`
 `
 
 const AddIcon = styled.div<{open:boolean}>`
-  width:15px;
-  height:15px;
-  transform: ${(props) => props.open && 'rotate(180deg)'};
+  width: 15px;
+  height: 15px;
+  transform: ${({open}) => !open && 'rotate(180deg)'};
 `
 
 const AddButton = styled.button`
@@ -224,9 +235,9 @@ const AddButton = styled.button`
 `
 
 const Poster = styled.img`
-  width:330px;
-  height:490px;
-  margin-right:5%;
+  width: 330px;
+  height: 490px;
+  margin-right: 5%;
   @media ${({ theme }) => theme.deviceSize.max.mobile} {
     display: none;
   }
