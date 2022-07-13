@@ -9,22 +9,30 @@ interface SearchListProps {
   filterMovie: IMovie[] | [];
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleInnterText: any;
+  searchInput: string;
 }
 
 const SearchList = ({
   recentKeyword,
   filterMovie,
   handleInnterText,
+  searchInput,
 }: SearchListProps) => {
+  const handleClickedElement = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.currentTarget.textContent) {
+      handleInnterText(event.currentTarget.textContent);
+    }
+  };
+  console.log(recentKeyword, filterMovie);
   if (recentKeyword && recentKeyword.length === 0 && filterMovie.length === 0) {
     return (
       <RecentListContainer>최근 검색된 기록이 없습니다.</RecentListContainer>
     );
   }
-
-  const handleClickedElement = (event: React.MouseEvent<HTMLDivElement>) => {
-    handleInnterText(event.currentTarget.textContent);
-  };
+  console.log(recentKeyword, filterMovie);
+  if (searchInput.length > 0 && filterMovie.length === 0) {
+    return <RecentListContainer>검색 결과가 없습니다.</RecentListContainer>;
+  }
 
   return (
     <>

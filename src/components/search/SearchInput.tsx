@@ -102,7 +102,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
               onKeyDown={handleKeyDown}
               onChange={handleDebounce}
               onFocus={handleCheckIsFocus}
-              // onBlur={handleCheckIsFocus}
+              onBlur={handleCheckIsFocus}
               placeholder="영화 제목을 입력해주세요"
               type="text"
               value={searchInput}
@@ -116,6 +116,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
               recentKeyword={recentKeyword}
               filterMovie={filterMovie}
               handleInnterText={handleInnterText}
+              searchInput={searchInput}
             />
           )}
         </SearchInputWrap>
