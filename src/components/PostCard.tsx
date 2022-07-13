@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
+<<<<<<< HEAD
 interface propTypes {
   data: {
     title: string;
@@ -12,17 +13,40 @@ interface propTypes {
   };
   onClick?: (event: React.MouseEvent) => void;
 }
+=======
+import { CardProps } from 'src/types/Movie';
+>>>>>>> 3cb6b06 (feat: PostCard 이미지 onLoad, onError 콜백함수 추가)
 
-const PostCard = (props: propTypes) => {
+const PostCard = (props: CardProps) => {
+  const [loading, setLoading] = useState(true);
   const { data } = props;
   const navigate = useNavigate();
   const handleClick = () => {
     navigate(`detail/${data.id}`);
   };
 
+  const handleLoad = () => {
+    setLoading(() => false);
+  };
+  const handleError = (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => {
+    event.currentTarget.src = '/images/noimage.png';
+  };
+
   return (
-    <PostCardContainer onClick={handleClick}>
-      <img src={data.medium_cover_image} alt={data.title} />
+    <PostCardContainer
+      onClick={handleClick}
+      style={{ display: loading ? 'none' : 'block' }}
+    >
+      <div className="imgBox">
+        <img
+          src={data.medium_cover_image}
+          alt={data.title}
+          onLoad={handleLoad}
+          onError={handleError}
+        />
+      </div>
       <div className="text">
         <div className="title">{data.title}</div>
         {data.summary && (
@@ -47,10 +71,21 @@ const PostCardContainer = styled.li`
     z-index: 9999;
     transform: scale(1.2);
   }
+<<<<<<< HEAD
   img {
     width: 100%;
     height: 100%;
     border-radius: 4px;
+=======
+  .imgBox {
+    width: 200px;
+    height: 300px;
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+    }
+>>>>>>> 3cb6b06 (feat: PostCard 이미지 onLoad, onError 콜백함수 추가)
   }
   .text {
     position: absolute;
@@ -97,10 +132,10 @@ const PostCardContainer = styled.li`
     }
   }
   @media screen and (max-width: 770px) {
-    img,
+    .imgBox,
     .text {
       width: 160px;
-      height: 100%;
+      height: 240px;
     }
   }
 `;

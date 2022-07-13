@@ -29,9 +29,11 @@ export default PostRow;
 
 const PostRowContainer = styled.div`
   display: flex;
+  width: 100%;
   .item {
-    width: 100% !important;
-    margin-right: 0;
+    width: 30%;
+    /* width: 100% !important; */
+    /* margin-right: 32px; */
   }
   .bottom {
     width: 200px;
