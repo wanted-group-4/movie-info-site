@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
@@ -15,7 +15,7 @@ interface PostCardProps {
   selectedIdx?: number;
 }
 
-const PostCard = (props: PostCardProps) => {
+const PostCard = memo((props: PostCardProps) => {
   const [loading, setLoading] = useState(true);
   const { data, selectedIdx, cardIdx } = props;
   const navigate = useNavigate();
@@ -60,7 +60,9 @@ const PostCard = (props: PostCardProps) => {
       </div>
     </PostCardContainer>
   );
-};
+});
+
+PostCard.displayName = 'PostCard';
 
 export default PostCard;
 
