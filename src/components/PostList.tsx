@@ -1,23 +1,29 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
 import PostCard from './PostCard';
+import { IMovie } from '../types/Movie';
 
 interface PostListProps {
-  movieList: any[]; // movieList 연결 필요
+  movieList?: IMovie[] | [];
   page?: number | undefined;
   setPage?: any;
 }
 
+interface IOptions {
+  root: null;
+  rootMargin: string;
+  threshold: number;
+}
+
 const PostList: React.FC<PostListProps> = ({ movieList, page, setPage }) => {
-  console.log(page);
   const navigate = useNavigate();
   const target = useRef<HTMLDivElement>(null);
 
   const handleClick = (id: number): void => navigate(`/detail/${id}`);
 
   if (page !== undefined) {
-    const options: any = {
+    const options: IOptions = {
       root: null,
       rootMargin: '0px',
       threshold: 0.5,
@@ -37,7 +43,7 @@ const PostList: React.FC<PostListProps> = ({ movieList, page, setPage }) => {
   return (
     <>
       <PostListContainer>
-        {movieList.length > 0 ? (
+        {movieList && movieList.length > 0 ? (
           <Grid>
             {movieList.map((movie, index) => (
               <PostCard
