@@ -8,47 +8,51 @@ interface SearchListProps {
   recentKeyword: string[];
   filterMovie: IMovie[] | [];
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInnterText: any;
+  searchInput: string;
 }
 
-const SearchList = ({ recentKeyword, filterMovie }: SearchListProps) => {
+const SearchList = ({
+  recentKeyword,
+  filterMovie,
+  handleInnterText,
+  searchInput,
+}: SearchListProps) => {
+  const handleClickedElement = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (event.currentTarget.textContent) {
+      handleInnterText(event.currentTarget.textContent);
+      console.log(event.currentTarget.textContent);
+    }
+  };
+
   if (recentKeyword && recentKeyword.length === 0 && filterMovie.length === 0) {
-    return (
-      <RecentListContainer>최근 검색된 기록이 없습니다.</RecentListContainer>
-    );
+    return <ListContainer>최근 검색된 기록이 없습니다.</ListContainer>;
+  }
+
+  if (searchInput.length > 0 && filterMovie.length === 0) {
+    return <ListContainer>검색 결과가 없습니다.</ListContainer>;
   }
 
   return (
     <>
       {filterMovie.length > 0
         ? filterMovie.map((movie: IMovie, index: number) => (
-            <RecommentListContainer key={index}>
+            <ListContainer key={index} onClick={handleClickedElement}>
               <AiOutlineSearch size={20} style={{ marginRight: '10px' }} />
               {movie.title}
-            </RecommentListContainer>
+            </ListContainer>
           ))
         : recentKeyword.map((keyword: string, index: number) => (
-            <RecentListContainer key={index}>
+            <ListContainer key={index} onClick={handleClickedElement}>
               <BiTime size={20} style={{ marginRight: '10px' }} />
               {keyword}
-            </RecentListContainer>
+            </ListContainer>
           ))}
     </>
   );
 };
 
-const RecentListContainer = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  padding: 5px 20px;
-
-  &:hover {
-    background: ${({ theme }) => theme.color.gray_02};
-    cursor: pointer;
-  }
-`;
-
-const RecommentListContainer = styled.div`
+const ListContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;

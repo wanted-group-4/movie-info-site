@@ -14,9 +14,14 @@ import { patchMovieFavorite } from 'src/api/movieApi';
 interface PostDetailProps {
   movie: IMovie;
   getSimilarList: (genre: string) => void;
+  handleLoad: (key: string) => void;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ movie, getSimilarList }) => {
+const PostDetail: React.FC<PostDetailProps> = ({
+  movie,
+  getSimilarList,
+  handleLoad,
+}) => {
   const [open, setOpen] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>(movie.like);
   const navigate = useNavigate();
@@ -77,7 +82,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ movie, getSimilarList }) => {
           </Description>
         </DescriptionWrap>
       </Container>
-      <Poster src={medium_cover_image} />
+      <Poster src={medium_cover_image} onLoad={() => handleLoad('movie')} />
     </PostDetailContainer>
   );
 };

@@ -38,6 +38,7 @@ const SlideWrap = styled.ul<{ currentIndex: number; viewWidth: number }>`
   display: flex;
   position: absolute;
   padding: 0 20px;
+  padding-bottom: 120px;
   width: 450vw;
   left: ${({ currentIndex, viewWidth }) =>
     `-${currentIndex * Math.floor(viewWidth / 7.5)}px`};
