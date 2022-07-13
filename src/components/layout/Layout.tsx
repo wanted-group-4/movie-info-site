@@ -1,9 +1,21 @@
-import React from 'react'
+import React from 'react';
+import styled from 'styled-components';
 
-const Layout = () => {
-  return (
-    <div>Layout</div>
-  )
+import Navigation from './Navigation';
+
+interface LayoutProps {
+  children: React.ReactNode;
 }
 
-export default Layout
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <>
+      <Navigation />
+      <Main>{children}</Main>
+    </>
+  );
+};
+
+export default Layout;
+
+const Main = styled.main``;

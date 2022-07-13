@@ -17,6 +17,7 @@
   "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "quotes": ["error", "single", { "avoidEscape": true }],
+    "@typescript-eslint/no-explicit-any": "off",
     "max-len": [
       2,
       120,
