@@ -10,7 +10,6 @@ export const getMovieById = (id: string | undefined) => {
   const response = useHttpRequest(`/${id}`);
   return response;
 };
-
 export const getMovieByPage = (page: number) => {
   const response = useHttpRequest(`?_page=${page}&_limit=10`);
   return response;
