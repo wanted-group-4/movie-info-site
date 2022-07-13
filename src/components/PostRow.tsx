@@ -3,10 +3,10 @@ import styled from 'styled-components';
 import { TbArrowBigLeft, TbArrowBigRight } from 'react-icons/tb';
 
 import PostCard from './PostCard';
-import { Card } from '../types/Movie';
+import { MovieCard } from '../types/Movie';
 
 interface propsType {
-  data?: Card[];
+  data?: MovieCard[];
 }
 
 const PostRow = (props: propsType) => {
@@ -45,7 +45,7 @@ const PostRow = (props: propsType) => {
 
   return (
     <PostRowContainer>
-      {selected !== -1 && (
+      {selected > 0 && (
         <IconWrapper onClick={handlePrev} className="left">
           <TbArrowBigLeft />
         </IconWrapper>

@@ -1,11 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { MdLocalMovies, MdFavorite, MdFavoriteBorder } from 'react-icons/md';
+import { MdFavorite, MdFavoriteBorder } from 'react-icons/md';
 
-import { CardProps } from 'src/types/Movie';
+interface PostCardProps {
+  data: {
+    title: string;
+    summary: string;
+    medium_cover_image: string;
+    like: boolean;
+    id: number;
+  };
+  handleSelect: (index: number) => void;
+  cardIdx: number;
+  selectedIdx: number;
+}
 
-const PostCard = (props: CardProps) => {
+const PostCard = (props: PostCardProps) => {
   const [loading, setLoading] = useState(true);
   const { data, selectedIdx, cardIdx } = props;
   const navigate = useNavigate();
@@ -26,11 +37,14 @@ const PostCard = (props: CardProps) => {
       ? props.handleSelect(-1)
       : props.handleSelect(cardIdx);
   };
+  const handleSelect = () => {
+    setSelect();
+    handleNavigate();
+  };
 
   return (
     <PostCardContainer
-      onClick={setSelect}
-      onDoubleClick={handleNavigate}
+      onClick={handleSelect}
       style={{ display: loading ? 'none' : 'block' }}
       className={cardIdx === selectedIdx ? 'selected' : ''}
     >
@@ -45,7 +59,6 @@ const PostCard = (props: CardProps) => {
       <div className="text">
         <div className="icons">
           {data.like ? <MdFavorite /> : <MdFavoriteBorder />}
-          <MdLocalMovies onClick={handleNavigate} />
         </div>
         <div className="title">{data.title}</div>
         {data.summary && (

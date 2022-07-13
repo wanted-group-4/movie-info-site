@@ -10,7 +10,6 @@ export const getMovieById = (id: string | undefined) => {
   const response = useHttpRequest(`/${id}`);
   return response;
 };
-
 export const getMovieByPage = (page: number) => {
   const response = useHttpRequest(`?_page=${page}&_limit=10`);
   return response;
@@ -35,4 +34,18 @@ export const patchMovieFavorite = (id: number, favorite: boolean) => {
   serverApi
     .patch(`/${id}`, { like: !favorite })
     .catch((error) => console.log(error));
+};
+
+export const getMovieByLatestOrder = (page: number) => {
+  const response = useHttpRequest(
+    `?_sort=date_uploaded&_order=desc&_page=${page}&_limit=10`
+  );
+  return response;
+};
+
+export const getMovieByRankOrder = (page: number) => {
+  const response = useHttpRequest(
+    `?_sort=rating&_order=desc&_page=${page}&_limit=10`
+  );
+  return response;
 };

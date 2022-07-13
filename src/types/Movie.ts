@@ -1,4 +1,4 @@
-interface Card {
+interface MovieCard {
   id: number;
   imdb_code: string;
   title: string;
@@ -25,20 +25,7 @@ interface Card {
   like: boolean;
 }
 
-interface CardProps {
-  data: {
-    title: string;
-    summary: string;
-    medium_cover_image: string;
-    like: boolean;
-    id: number;
-  };
-  handleSelect: (index: number) => void;
-  cardIdx: number;
-  selectedIdx: number;
-}
-
-export { Card, CardProps };
+export { MovieCard };
 
 export interface MovieDetail {
   id: number;
