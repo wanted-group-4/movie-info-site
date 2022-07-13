@@ -8,11 +8,11 @@ import {
   AiOutlinePlusCircle,
 } from 'react-icons/ai';
 
-import { IMovieDetail } from 'src/types/Movie';
+import { IMovie, IMovieDetail } from 'src/types/Movie';
 import { patchMovieFavorite } from 'src/api/movieApi';
 
 interface PostDetailProps {
-  movie: any;
+  movie: IMovie;
 }
 
 const PostDetail: React.FC<PostDetailProps> = ({ movie }) => {

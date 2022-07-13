@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import serverApi from './index';
-import { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 interface UseHttpRequestProps {
   url: string;
 }
 
 export const useHttpRequest = <T>({ url }: UseHttpRequestProps) => {
-  const [data, setData] = useState<AxiosResponse<T> | null>(null);
+  const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<AxiosError | null>(null);
 
@@ -16,7 +16,7 @@ export const useHttpRequest = <T>({ url }: UseHttpRequestProps) => {
       setLoading(true);
       await serverApi
         .get(url)
-        .then((response) => {
+        .then((response: any) => {
           setData(response);
           setLoading(false);
         })

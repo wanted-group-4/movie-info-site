@@ -7,6 +7,7 @@ export interface IMovie {
   slug: string;
   year: number;
   rating: number;
+  runtime: number;
   genres: Array<string>;
   summary: string;
   description_full: string;

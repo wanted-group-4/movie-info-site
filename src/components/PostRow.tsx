@@ -4,13 +4,13 @@ import { IMovie } from '../types/Movie';
 import PostCard from './PostCard';
 
 interface PostRowProps {
-  movies: any;
+  movies: [] | IMovie[] | null;
 }
 
 const PostRow: React.FC<PostRowProps> = ({ movies }) => {
   return (
     <PostRowContainer>
-      {movies.map((movie: IMovie) => (
+      {movies?.map((movie: IMovie) => (
         <div key={movie.id} className="item">
           <PostCard data={movie} />
           <div className="bottom">

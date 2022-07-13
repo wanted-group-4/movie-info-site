@@ -12,7 +12,7 @@ interface SearchInputProps {
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
-  const { data } = getMovies() as any;
+  const { data } = getMovies() as { data: IMovie[] };
 
   const [searchInput, setSearchInput] = useState<string>('');
   const [filterMovie, setFilterMovie] = useState<IMovie[] | []>([]);
@@ -45,8 +45,6 @@ const SearchInput: React.FC<SearchInputProps> = ({ handleSearchMovie }) => {
   };
 
   const filterSearchMovie = (keyword: string) => {
-    if (!data) return;
-
     const filterData = data.filter((movie: IMovie) =>
       movie.title.toLowerCase().includes(keyword)
     );
