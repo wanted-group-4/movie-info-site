@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Navigation from './Navigation';
+import Footer from './Footer';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -12,6 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <>
       <Navigation />
       <Main>{children}</Main>
+      <Footer />
     </>
   );
 };
